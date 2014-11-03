@@ -1,0 +1,58 @@
+#!/usr/bin/Rscript
+message('Starting...')
+
+final <- try({
+	root <- file.path(path.expand("~"), "SeqPlots_data")
+	suppressPackageStartupMessages(require(BSgenome))
+	
+	try({
+		txt <- httr::content(httr::GET('https://raw.githubusercontent.com/Przemol/seqplots/master/DESCRIPTION'))
+		new <- gsub('.+Version: ([0-9\\.]+).+', '\\1', txt)
+		if( as.package_version(new) > packageVersion('seqplots') ) {
+			if( system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --title "SeqPlots update" --text "New version available!"', 
+				' --informative-text "Current version ',  packageVersion('seqplots') , 
+				' can be updated to ', new ,'. Do you want to update?" --button1 "NO" --button2 "YES" --float'), 
+				intern=TRUE) == 2) {
+					source("http://bioconductor.org/biocLite.R")
+					biocLite('seqplots', ask=FALSE)
+					if (!require("devtools")) biocLite("devtools")
+					devtools::install_github('przemol/seqplots', build_vignettes=FALSE)
+			}
+		}
+	})
+		
+	a=2
+	while (a!=1) {
+		a=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v', packageVersion('seqplots'), ' (Mac OS X bundle)" --informative-text "', 
+		'Currently installed genomes:\n', paste0('-', BSgenome::installed.genomes(), collapse='\n'), '\n------------------------------------------------ \n Data location: ', root, 
+		'" --button1 "START" --button2 "Install new genomes/updates" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'), intern=TRUE)
+		if(a==2) {
+			a2=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog dropdown --title "Install new genomes or updates" --text "Choose reference genome package..." --items ', 
+				paste(suppressMessages(available.genomes()), collapse=' '), ' --button1 "Ok" --button2 "Cancel" --button3 "Install from local file" --string-output'), intern=TRUE)
+			if(a2[[1]] == 'Ok') {
+				biocLite(a2[[2]], suppressUpdates=TRUE, ask=FALSE)
+			} else if(a2[[1]] == 'Install from local file') {
+				a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --title "Select reference genome or update package.."', intern=TRUE)
+				if(length(a3) > 0) install.packages(a3)
+			}
+		}
+		if(a==3) {
+			a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --select-only-directories --title "Select data location..."', intern=TRUE)
+			if(length(a3) > 0) root <- a3
+		}
+	}
+	message('Data loaction: ', root)
+	message('Loading packages...')
+	suppressPackageStartupMessages( library(seqplots) )
+	
+	seqplots::run( root = root, launch.browser = TRUE )
+})
+
+if( class(final) == "try-error" ) {
+	if( system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "Error occurred. SeqPlots will terminate."', 
+		' --informative-text "Please investigate *details* on SeqPlots diagnostic window for more information. Last error message:\n\n',  
+		attributes(final)$condition$message, '" --button1 "OK"  --button3 "Report Issue" --title "ERRER" --icon x --float'), 
+	intern=TRUE) == 3) {
+		browseURL('https://github.com/Przemol/seqplots/issues/new')
+	}
+}
