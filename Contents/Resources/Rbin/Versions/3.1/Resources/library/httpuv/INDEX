@@ -1,4 +1,5 @@
-WebSocket               WebSocket object
+WebSocket-class         WebSocket object
+encodeURI               URI encoding/decoding
 httpuv-package          HTTP and WebSocket server
 interrupt               Interrupt httpuv runloop
 rawToBase64             Convert raw vector to Base64-encoded string

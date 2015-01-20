@@ -89,7 +89,7 @@ galist
 ###################################################
 ### code chunk number 13: readGAlignmentsList_3
 ###################################################
-non_mates <- galist[unlist(mcols(galist)$mates) == FALSE]
+non_mates <- galist[unlist(mcols(galist)$mate_status) == "unmated"]
 table(elementLengths(non_mates))
 
 

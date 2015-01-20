@@ -34,6 +34,7 @@ convertToShortString    Converts any R object to a descriptive string
 dapply                  Call 'lapply' on an object and return a
                         data.frame.
 deprecated              Deprecated function. Do not use!
+do.call2                Execute a function call similar to 'do.call'.
 dropNamed               Drop named elements of an object.
 ensureVector            Blow up single scalars / objects to vectors /
                         list by replication.
@@ -49,6 +50,7 @@ getMaxIndex             Return index of maximal/minimal element in
 getMaxIndexOfRows       Find row- or columnwise the index of the
                         maximal / minimal element in a matrix.
 getOperatingSystem      Functions to determine the operating system.
+getRelativePath         Construct a path relative to another
 getUnixTime             Current time in seconds.
 getUsedFactorLevels     Determines used factor levels.
 hasAttributes           Check if given object has certain attributes.
@@ -68,6 +70,7 @@ isSubset                Check subset relation on two vectors.
 isSuperset              Check superset relation on two vectors.
 isValidName             Can some strings be used for column or list
                         element names without problems?
+itostr                  Convert Integers to Strings
 lib                     A wrapper for 'library'.
 load2                   Load RData file and return objects in it.
 lsort                   A wrapper for 'sort' to sort using the "C"
@@ -103,6 +106,7 @@ setRowNames             Wrapper for 'rownames(x) = y', 'colnames(x) =
 setValue                Set a list element to a new value.
 sortByCol               Sort the rows of a data.frame according to one
                         or more columns.
+splitPath               Split a path into components
 splitTime               Split seconds into handy chunks of time.
 stopf                   Wrapper for stop and sprintf.
 strrepeat               Repeat and join a string

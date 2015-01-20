@@ -27,6 +27,7 @@ convertRowsToList	convertRowsToList
 convertToShortString	convertToShortString
 dapply	dapply
 deprecated	deprecated
+do.call2	do.call2
 dropNamed	dropNamed
 ensureVector	ensureVector
 explode	explode
@@ -43,6 +44,7 @@ getMinIndex	getMaxIndex
 getMinIndexOfCols	getMaxIndexOfRows
 getMinIndexOfRows	getMaxIndexOfRows
 getOperatingSystem	getOperatingSystem
+getRelativePath	getRelativePath
 getUnixTime	getUnixTime
 getUsedFactorLevels	getUsedFactorLevels
 hasAttributes	hasAttributes
@@ -68,6 +70,7 @@ isSuperset	isSuperset
 isUnix	getOperatingSystem
 isValidName	isValidName
 isWindows	getOperatingSystem
+itostr	itostr
 lib	lib
 listToShortString	deprecated
 load2	load2
@@ -100,6 +103,7 @@ setRowNames	setRowNames
 setValue	setValue
 SimpleFileLogger	makeSimpleFileLogger
 sortByCol	sortByCol
+splitPath	splitPath
 splitTime	splitTime
 stopf	stopf
 strrepeat	strrepeat

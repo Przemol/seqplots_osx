@@ -1,11 +1,11 @@
 Package: seqplots
 Maintainer: Przemyslaw Stempor <ps562@cam.ac.uk>
 Author: Przemyslaw Stempor
-Version: 1.0.0
+Version: 1.1.8
 License: GPL-3
-Title: SeqPlots - An interactive tool for visualizing NGS signals and
-        sequence motif densities along genomic features using average
-        plots and heatmaps.
+Title: An interactive tool for visualizing NGS signals and sequence
+        motif densities along genomic features using average plots and
+        heatmaps.
 Description: SeqPlots is a tool for plotting next generation sequencing (NGS)
     based experiments' signal tracks, e.g. reads coverage from ChIP-seq,
     RNA-seq and DNA accessibility assays like DNase-seq and MNase-seq, over
@@ -31,11 +31,12 @@ Description: SeqPlots is a tool for plotting next generation sequencing (NGS)
     annotations.
 URL: http://github.com/przemol/seqplots
 BugReports: http://github.com/przemol/seqplots/issues
+biocViews: ChIPSeq, RNASeq, Sequencing, Software, Visualization
 Depends: R (>= 3.1.0)
 Imports: methods, IRanges, BSgenome, digest, rtracklayer,
         GenomicRanges, Biostrings, shiny, DBI, RSQLite, RJSONIO,
         plotrix, fields, grid, kohonen, Cairo, parallel, GenomeInfoDb,
-        class, S4Vectors
+        class, S4Vectors, ggplot2, reshape2, gridExtra
 Type: Package
 Date: 2014-09-15
 LazyLoad: yes
@@ -43,10 +44,19 @@ VignetteBuilder: knitr
 Suggests: testthat, BiocStyle, knitr
 Collate: 'MotifSetup-class.R' 'PlotSetPair-class.R'
         'PlotSetArray-class.R' 'PlotSetList-class.R'
-        'generic_methods.R' 'getPlotSetArray.R' 'int_getSF.R'
-        'int_heatmapPlotWrapper.R' 'int_imPlot2.R' 'int_plotMext.R'
-        'plotAverage.R' 'plotHeatmap.R' 'run.R' 'seqplots-package.R'
-        'zzz.R'
-biocViews: ChIPSeq, RNASeq, Sequencing, Software, Visualization
-Packaged: 2014-10-14 04:20:07 UTC; biocbuild
-Built: R 3.1.1; ; 2014-10-14 14:51:40 UTC; unix
+        'deployServerInstance.R' 'generic_methods.R'
+        'getPlotSetArray.R' 'helper_functions.R' 'int_getSF.R'
+        'int_ggHeatmapPlotWrapper.R' 'int_heatmapPlotWrapper.R'
+        'int_imPlot2.R' 'int_plotMext.R' 'plotAverage.R'
+        'plotHeatmap.R' 'run.R' 'seqplots-package.R' 'zzz.R'
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: seqplots
+RemoteUsername: przemol
+RemoteRef: master
+RemoteSha: f21b5c2b4d3686a7f01ae0d331db285203be3351
+GithubRepo: seqplots
+GithubUsername: przemol
+GithubRef: master
+GithubSHA1: f21b5c2b4d3686a7f01ae0d331db285203be3351
+Built: R 3.1.1; ; 2014-12-24 08:37:11 UTC; unix

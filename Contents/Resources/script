@@ -1,8 +1,6 @@
 #!/bin/sh
 
-#[[ $(sw_vers -productVersion) < 10.6 ]] && echo "This application requires Mac OS X Snow leopard (10.6) or newer." && exit 0;
 #[[ $(which Xorg) ]] && echo 'System check: OK' || (CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --string-output --text "Xorg not found" --informative-text 'Install X11 from http://xquartz.macosforge.org (http://support.apple.com/kb/ht5293)' --button1 "OK" --title "Setup" --icon atom --float > /dev/null && open http://xquartz.macosforge.org);
-
 
 export RHOME=$(pwd)/Rbin/Resources
 export R_HOME_DIR=$(pwd)/Rbin/Resources

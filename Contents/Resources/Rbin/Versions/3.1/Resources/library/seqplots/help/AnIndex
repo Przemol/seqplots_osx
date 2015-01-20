@@ -1,9 +1,13 @@
 seqplots-package	seqplots
+deployServerInstance	deployServerInstance
 getPlotSetArray	getPlotSetArray
+ggHeatmapPlotWrapper	ggHeatmapPlotWrapper
 heatmapPlotWrapper	heatmapPlotWrapper
 imPlot2	imPlot2
 MotifSetup	MotifSetup-class
 MotifSetup-class	MotifSetup-class
+num2bp	num2bp
+num2sci	num2sci
 plot	plot
 plot,PlotSetArray,ANY-method	plot
 plot,PlotSetList,ANY-method	plot

@@ -5,3 +5,6 @@ BiocStyle::latex()
 library(GenomeInfoDb)
 names(genomeStyles())
 
+## ----email------------------------------------------------------------------------------
+packageDescription("GenomeInfoDb")$Maintainer
+

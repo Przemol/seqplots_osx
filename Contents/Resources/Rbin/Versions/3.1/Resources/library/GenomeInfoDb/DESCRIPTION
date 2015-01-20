@@ -6,7 +6,7 @@ Description: Contains data and functions that
 	sequence naming conventions (e.g., "chr1" versus "1"),
 	including a function that attempts to place sequence names in
 	their natural, rather than lexicographic, order.
-Version: 1.2.0
+Version: 1.2.4
 Author: Sonali Arora, Martin Morgan, Marc Carlson, H. Pages
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 biocViews: Genetics, DataRepresentation, Annotation, GenomeAnnotation
@@ -23,5 +23,5 @@ Collate: utils.R assembly-utils.R fetchExtendedChromInfoFromUCSC.R
         Seqinfo-class.R GenomeDescription-class.R
 VignetteBuilder: knitr
 Video: http://youtu.be/wdEjCYSXa7w
-Packaged: 2014-10-14 03:40:09 UTC; biocbuild
-Built: R 3.1.1; ; 2014-10-14 14:25:37 UTC; unix
+Packaged: 2014-12-19 04:41:52 UTC; biocbuild
+Built: R 3.1.2; ; 2014-12-19 15:20:48 UTC; unix

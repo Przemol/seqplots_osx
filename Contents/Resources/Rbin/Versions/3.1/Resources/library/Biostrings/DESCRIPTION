@@ -4,7 +4,7 @@ Title: String objects representing biological sequences, and matching
 Description: Memory efficient string containers, string matching
 	algorithms, and other utilities, for fast manipulation of large
 	biological sequences or sets of sequences.
-Version: 2.34.0
+Version: 2.34.1
 Author: H. Pages, P. Aboyoun, R. Gentleman, and S. DebRoy
 Maintainer: H. Pages <hpages@fhcrc.org>
 biocViews: SequenceMatching, Genetics, Sequencing, Infrastructure,
@@ -41,5 +41,5 @@ Collate: 00datacache.R utils.R IUPAC_CODE_MAP.R AMINO_ACID_CODE.R
         align-utils.R pmatchPattern.R pairwiseAlignment.R stringDist.R
         needwunsQS.R MultipleAlignment.R matchprobes.R debug.R test.R
         zzz.R
-Packaged: 2014-10-14 00:39:36 UTC; biocbuild
-Built: R 3.1.1; x86_64-apple-darwin10.8.0; 2014-10-14 14:12:05 UTC; unix
+Packaged: 2014-12-12 01:32:04 UTC; biocbuild
+Built: R 3.1.2; x86_64-apple-darwin10.8.0; 2014-12-12 15:08:06 UTC; unix

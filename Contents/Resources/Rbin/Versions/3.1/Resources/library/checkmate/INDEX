@@ -30,7 +30,7 @@ checkLogical            Check if an argument is a vector of type
                         logical
 checkMatrix             Check if an argument is a matrix
 checkNamed              Check if an argument is named
-checkNames              Check for names
+checkNames              Check names to comply to specific rules
 checkNull               Check if an argument is NULL
 checkNumber             Check if an argument is a single numeric
 checkNumeric            Check that an argument is a vector of type
