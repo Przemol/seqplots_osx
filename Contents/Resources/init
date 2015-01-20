@@ -7,7 +7,7 @@ final <- try({
 		
 	a=2
 	while (a!=1) {
-		a=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v', packageVersion('seqplots'), ' (Mac OS X bundle ref:$(./git rev-parse --short=4 @{0}))" --informative-text "', 
+		a=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v', packageVersion('seqplots'), ' (Mac OS X bundle ref: $(./git rev-parse --short=4 @{0}))" --informative-text "', 
 		'Currently installed genomes:\n', paste0('-', BSgenome::installed.genomes(), collapse='\n'), '\n------------------------------------------------ \n Data location: ', root, 
 		'" --button1 "START" --button2 "Install new genomes/updates" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'), intern=TRUE)
 		if(a==2) {
