@@ -3,7 +3,6 @@
 #[[ $(which Xorg) ]] && echo 'System check: OK' || (CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --string-output --text "Xorg not found" --informative-text 'Install X11 from http://xquartz.macosforge.org (http://support.apple.com/kb/ht5293)' --button1 "OK" --title "Setup" --icon atom --float > /dev/null && open http://xquartz.macosforge.org);
 
 export GIT_EXEC_PATH='./git-core'
-
 ./git fetch --depth=1
 
 LOCAL=$(./git rev-parse @{0})
@@ -14,16 +13,8 @@ if [ $LOCAL = $REMOTE ]; then
     echo "App is up-to-date"
     UPDATE=0
 
-elif [ $LOCAL = $BASE ]; then
+else 
     UPDATE=$(CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --button1 "NO" --button2 "YES" --float --title "SeqPlots app update avilable" --text "New version available!" --informative-text "Current version [$(./git rev-parse --short=4 $LOCAL)] can be updated to [$(./git rev-parse --short=4 $REMOTE)] Do you want to update?")
-
-elif [ $REMOTE = $BASE ]; then
-    echo "App is ahead of repo"
-    UPDATE=0
-
-else
-    echo "App diverged from repo"
-    UPDATE=0
 
 fi
 
