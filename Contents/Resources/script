@@ -2,9 +2,10 @@
 
 #[[ $(which Xorg) ]] && echo 'System check: OK' || (CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --string-output --text "Xorg not found" --informative-text 'Install X11 from http://xquartz.macosforge.org (http://support.apple.com/kb/ht5293)' --button1 "OK" --title "Setup" --icon atom --float > /dev/null && open http://xquartz.macosforge.org);
 
+./git fetch --depth=1
 
 LOCAL=$(./git rev-parse @{0})
-REMOTE=$(./git ls-remote origin -h refs/heads/master | cut -f1)
+REMOTE=$(./git rev-parse @{u})
 BASE=$(./git merge-base @ @{u})
 
 if [ $LOCAL = $REMOTE ]; then
