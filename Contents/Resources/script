@@ -34,6 +34,7 @@ if [ $UPDATE = 2 ]; then
     ./git gc --prune=now
 fi
 
+
 export RHOME=$(pwd)/Rbin/Resources
 export R_HOME_DIR=$(pwd)/Rbin/Resources
 $RHOME/bin/Rscript init
