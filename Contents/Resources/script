@@ -12,11 +12,7 @@ if [ $LOCAL = $REMOTE ]; then
     UPDATE=0
 
 elif [ $LOCAL = $BASE ]; then
-    UPDATE=$(CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox \
-    --title "SeqPlots app update avilable" \
-    --text "New version available!"\ 
-    --informative-text "Current version $(./git rev-parse --short=4 $LOCAL) can be updated to $(./git rev-parse --short=4 $REMOTE) Do you want to update?" \
-    --button1 "NO" --button2 "YES" --float)
+    UPDATE=$(CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --button1 "NO" --button2 "YES" --float --title "SeqPlots app update avilable" --text "New version available!" --informative-text "Current version [$(./git rev-parse --short=4 $LOCAL)] can be updated to [$(./git rev-parse --short=4 $REMOTE)] Do you want to update?")
 
 elif [ $REMOTE = $BASE ]; then
     echo "App is ahead of repo"
