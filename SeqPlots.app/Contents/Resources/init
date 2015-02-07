@@ -10,8 +10,10 @@ final <- try({
     }
     
     if( as.logical(CONF$askupdate) ) { try({    	
-		txt <- httr::content(httr::GET('https://raw.githubusercontent.com/Przemol/seqplots/master/DESCRIPTION'))		
-		new <- gsub('.+Version: ([0-9\\.]+).+', '\\1', txt)		
+		txt <- httr::content(httr::GET(
+            'https://raw.githubusercontent.com/Przemol/seqplots_osx/master/SeqPlots.app/Contents/Resources/seqplots.dcf'
+        ))		
+		new <- read.dcf(textConnection(txt), all=TRUE)$version
 		if( as.package_version(new) > as.package_version(CONF$version) ) {
 		upd <- system(paste0(
             'CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --title "Update Available" ',
