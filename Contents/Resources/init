@@ -9,18 +9,25 @@ final <- try({
         root <- CONF$root
     }
     
-    try({    	
+    if( as.logical(CONF$askupdate) ) { try({    	
 		txt <- httr::content(httr::GET('https://raw.githubusercontent.com/Przemol/seqplots/master/DESCRIPTION'))		
 		new <- gsub('.+Version: ([0-9\\.]+).+', '\\1', txt)		
-		if( as.package_version(new) > packageVersion('seqplots') ) {		
-			if( system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --title "SeqPlots update" --text "New version available!"', 		
-				' --informative-text "Current version ',  packageVersion('seqplots') , 		
-				' can be updated to ', new ,'. Do you want to update?" --button1 "NO" --button2 "YES" --float'), 		
-				intern=TRUE) == 2) {		
-			    browseURL('https://github.com/Przemol/seqplots_osx/releases/latest')		
-			}		
+		if( as.package_version(new) > as.package_version(CONF$version) ) {
+		upd <- system(paste0(
+            'CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --title "Update Available" ',
+		    '--text "SeqPlots OS X boundle version ', new, ' is now available." ',
+            '--informative-text "You are using version ', CONF$version, '" ',     	
+		    '--button1 "Quit and Download" --button2 "Remind later" --button3 "Ignore updates" --float'), 		
+		   intern=TRUE)
+			if( upd == 1 ) {
+			    browseURL('https://github.com/Przemol/seqplots_osx/releases/latest')
+			    quit(save = "no")
+			} else if ( upd == 3 ) {
+			    CONF$askupdate <- FALSE
+			    write.dcf(CONF, 'seqplots.dcf')
+			}
 		}		
-	})
+	})}
     
 	#set up rooth here
     suppressPackageStartupMessages(require(BSgenome))
@@ -35,7 +42,7 @@ final <- try({
 		a=system(paste0(
             'CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v',
             packageVersion('seqplots'), 
-            ' (Mac OS X bundle ref: ',
+            ' (Mac OS X bundle version: ',
             CONF$version,
             ')" --informative-text "', 
 		    'Currently installed genomes:\n', 
@@ -60,6 +67,7 @@ final <- try({
                 root <- a3
                 CONF$root <- root
                 write.dcf(CONF, 'seqplots.dcf')
+			}
 		}
 	}
 	message('Data loaction: ', root)
