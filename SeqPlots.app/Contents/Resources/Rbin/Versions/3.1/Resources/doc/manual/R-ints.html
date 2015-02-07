@@ -7,9 +7,9 @@
 <link title="Top" rel="top" href="#Top">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
-This manual is for R, version 3.1.0 Patched (2014-05-15).
+This manual is for R, version 3.1.2 (2014-10-31).
 
-Copyright (C) 1999-2013 R Core Team
+Copyright (C) 1999-2014 R Core Team
 
      Permission is granted to make and distribute verbatim copies of
      this manual provided the copyright notice and this permission
@@ -225,9 +225,9 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <p>This is a guide to the internal structures of R and coding standards for
 the core team working on R itself.
 
-   <p>This manual is for R, version 3.1.0 Patched (2014-05-15).
+   <p>This manual is for R, version 3.1.2 (2014-10-31).
 
-   <p>Copyright &copy; 1999&ndash;2013 R Core Team
+   <p>Copyright &copy; 1999&ndash;2014 R Core Team
 
    <blockquote>
 Permission is granted to make and distribute verbatim copies of this
@@ -2164,7 +2164,7 @@ indicating if the serialized objects were compressed: compression is
 always used nowadays. We later added the values <code>compressed = 2</code>
 and <code>3</code> for <samp><span class="command">bzip2</span></samp> and <samp><span class="command">xz</span></samp> compression (with the
 possibility of future expansion to other methods): these formats add a
-fifth byte to the header for the type of compression, and stores
+fifth byte to the header for the type of compression, and store
 serialized objects uncompressed if compression expands them.
 
    <p>The loader for a lazy-load database of code or data is function
@@ -2181,6 +2181,16 @@ entries is done by calls to <code>.Call("R_lazyLoadDBinsertValue",
    <p>Lazy-load databases of less than 10MB are cached in memory at first use:
 this was found necessary when using file systems with high latency
 (removable devices and network-mounted file systems on Windows).
+
+   <p>Lazy-load databases are loaded into the exports for a package, but not
+into the namespace environment itself.  Thus they are visible when the
+package is <em>attached</em>, and also <em>via</em> the <code>::</code> operator. 
+This was a deliberate design decision, as packages mostly make datasets
+available for use by the end user (or other packages), and they should
+not be found preferentially from functions in the package, surprising
+users who expected the normal search path to be used.  (There is an
+alternative mechanism, <samp><span class="file">sysdata.rda</span></samp>, for ‘system datasets’ that
+are intended primarily to be used within the package.)
 
    <p>The same database mechanism is used to store parsed <samp><span class="file">Rd</span></samp> files. 
 One or all of the parsed objects is fetched by a call to
@@ -2253,7 +2263,7 @@ implemented as primitive functions:
      </pre>
      <li>Language elements and basic <em>operator</em>s (i.e., functions usually
 <em>not</em> called as <code>foo(a, b, ...)</code>) for subsetting, assignment,
-arithmetic and logic:
+arithmetic, comparison and logic:
 
      <pre class="example">                         [    [[    $    @
           &lt;-   &lt;&lt;-  =    [&lt;-  [[&lt;-  $&lt;-  @&lt;-
@@ -2262,6 +2272,9 @@ arithmetic and logic:
           &lt;    &lt;=   ==   !=    &gt;=   &gt;
           |    ||   &amp;    &amp;&amp;    !
      </pre>
+     <p class="noindent">When the arithmetic, comparison and logical operators are called as
+functions, any argument names are discarded so positional matching is used.
+
      <li>&ldquo;Low level&rdquo; 0&ndash; and 1&ndash;argument functions which belong to one of the
 following groups of functions:
 
@@ -2372,8 +2385,9 @@ documentation: this is also done for replacement functions with one
 argument plus <code>value</code>.
 
    <p>The net effect is that argument matching for primitives intended for
-end-user use is done in the same way as for interpreted functions except
-for the six exceptions where positional matching is required.
+end-user use <em>as functions</em> is done in the same way as for
+interpreted functions except for the six exceptions where positional
+matching is required.
 
 <ul class="menu">
 <li><a accesskey="1" href="#Special-primitives">Special primitives</a>
@@ -4262,8 +4276,9 @@ with <code>.libPaths()</code> containing just a temporary library directory
 and <code>.Library</code>.  The temporary library is populated by symbolic
 links<a rel="footnote" href="#fn-23" name="fnd-23"><sup>23</sup></a> to the installed copies of
 all the Depends/Imports and (for the second only) Suggests packages
-which are not in <code>.Library</code>.  Default: false (but
-<samp><span class="env">_R_CHECK_SUGGESTS_ONLY_</span></samp> is true for CRAN checks).
+which are not in <code>.Library</code>.  (As an exception, packages in a
+‘<samp><span class="samp">VignetteBuilder</span></samp>’ field are always made available.) 
+Default: false (but <samp><span class="env">_R_CHECK_SUGGESTS_ONLY_</span></samp> is true for CRAN checks).
 
      <br><dt><code>_R_CHECK_NO_RECOMMENDED_</code><a name="index-g_t_005fR_005fCHECK_005fNO_005fRECOMMENDED_005f-156"></a><dd>If set to a true value, augment the previous checks to make recommended
 packages unavailable unless declared. 
@@ -4338,7 +4353,12 @@ Default: <code>0</code>.
 set to ‘<samp><span class="samp">warn</span></samp>’ gives a warning, to ‘<samp><span class="samp">false</span></samp>’ or ‘<samp><span class="samp">FALSE</span></samp>’ the
 check is skipped, and any other non-empty value gives an error when more
 than 2 children are spawned. 
-Default: unset (but ‘<samp><span class="samp">TRUE</span></samp>’ for CRAN submission checks). 
+Default: unset (but ‘<samp><span class="samp">TRUE</span></samp>’ for CRAN submission checks).
+
+     <br><dt><code>_R_CHECK_CODE_USAGE_VIA_NAMESPACES_</code><a name="index-g_t_005fR_005fCHECK_005fCODE_005fUSAGE_005fVIA_005fNAMESPACES_005f-171"></a><dd>If set, check code usage (via <a href="http://CRAN.R-project.org/package=codetools"><strong>codetools</strong></a>) directly on the
+package namespace without loading and attaching the package and its
+suggests and enhances. 
+Default: true (and true for CRAN submission checks). 
 </dl>
 
    <p>CRAN's submission checks use something like
@@ -4354,6 +4374,7 @@ Default: unset (but ‘<samp><span class="samp">TRUE</span></samp>’ for CRAN s
      _R_CHECK_CODE_ASSIGN_TO_GLOBALENV_=TRUE
      _R_CHECK_CODE_ATTACH_=TRUE
      _R_CHECK_CODE_DATA_INTO_GLOBALENV_=TRUE
+     _R_CHECK_CODE_USAGE_VIA_NAMESPACES_=TRUE
      _R_CHECK_DOT_FIRSTLIB_=TRUE
      _R_CHECK_DEPRECATED_DEFUNCT_=TRUE
      _R_CHECK_REPLACING_IMPORTS_=TRUE
@@ -4378,7 +4399,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">9 R coding standards</h2>
 
-<p><a name="index-coding-standards-171"></a>R is meant to run on a wide variety of platforms, including Linux and
+<p><a name="index-coding-standards-172"></a>R is meant to run on a wide variety of platforms, including Linux and
 most variants of Unix as well as Windows and OS X. 
 Therefore, when extending R by either adding to the R base
 distribution or by providing an add-on package, one should not rely on
@@ -4403,7 +4424,7 @@ widely available).
 
      <li>A simple <samp><span class="command">make</span></samp>, considering the features of <samp><span class="command">make</span></samp> in
 4.2 <acronym>BSD</acronym> systems as a baseline. 
-<a name="index-make-172"></a>
+<a name="index-make-173"></a>
 <acronym>GNU</acronym> or other extensions, including pattern rules using
 ‘<samp><span class="samp">%</span></samp>’, the automatic variable ‘<samp><span class="samp">$^</span></samp>’, the ‘<samp><span class="samp">+=</span></samp>’ syntax to
 append to the value of a variable, the (&ldquo;safe&rdquo;) inclusion of makefiles
@@ -4446,10 +4467,10 @@ Bourne shell).
 install-info</span></samp> needs Perl installed if there is no command
 <samp><span class="command">install-info</span></samp> on the system, and for the maintainer-only script
 <samp><span class="file">tools/help2man.pl</span></samp>. 
-<a name="index-Perl-173"></a>
+<a name="index-Perl-174"></a>
 <li>Makeinfo version 4.7 or later is needed to build the Info files for the
 R manuals written in the <acronym>GNU</acronym> Texinfo system. 
-<a name="index-makeinfo-174"></a></ul>
+<a name="index-makeinfo-175"></a></ul>
 
    <p>It is also important that code is written in a way that allows others to
 understand it.  This is particularly helpful for fixing problems, and
@@ -4461,7 +4482,7 @@ implement this indentation style by putting the following in one of
 their startup files, and using customization to set the
 <code>c-default-style</code> to <code>"bsd"</code> and <code>c-basic-offset</code> to
 <code>4</code>.) 
-<a name="index-emacs-175"></a>
+<a name="index-emacs-176"></a>
 <pre class="smallexample">     ;;; ESS
      (add-hook 'ess-mode-hook
                (lambda ()
@@ -4635,8 +4656,7 @@ to 2^48 on unserialization.
      <li>The type <code>R_xlen_t</code> is made available to packages in C header
 <samp><span class="file">Rinternals.h</span></samp>: this should be fine in C code since C99 is
 required.  People do try to use R internals in C++, but C++98
-compilers are not required to support these types (and there are
-currently no C++11 compilers).
+compilers are not required to support these types.
 
      <li>Indexing can be done via the use of doubles.  The internal indexing code
 used to work with positive integer indices (and negative, logical and
@@ -4722,9 +4742,9 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Current-and-future-directions">Current
 <h3 class="section">12.3 Large matrices</h3>
 
 <p>Matrices are stored as vectors and so were also limited to 2^31-1
-elements.  Now longer vectors are allowed, matrices with more elements
-are supported provided that each of the dimensions is no more than
-2^31-1.  However, not all applications can be supported.
+elements.  Now longer vectors are allowed on 64-bit platforms, matrices
+with more elements are supported provided that each of the dimensions is
+no more than 2^31-1.  However, not all applications can be supported.
 
    <p>The main problem is linear algebra done by FORTRAN code compiled
 with 32-bit <code>INTEGER</code>.  Although not guaranteed, it seems that all
@@ -4774,6 +4794,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCODE_005fASSIGN_005fTO_005fGLOBALENV_005f-161"><code>_R_CHECK_CODE_ASSIGN_TO_GLOBALENV_</code></a>: <a href="#Tools">Tools</a></li>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCODE_005fATTACH_005f-162"><code>_R_CHECK_CODE_ATTACH_</code></a>: <a href="#Tools">Tools</a></li>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCODE_005fDATA_005fINTO_005fGLOBALENV_005f-163"><code>_R_CHECK_CODE_DATA_INTO_GLOBALENV_</code></a>: <a href="#Tools">Tools</a></li>
+<li><a href="#index-g_t_005fR_005fCHECK_005fCODE_005fUSAGE_005fVIA_005fNAMESPACES_005f-171"><code>_R_CHECK_CODE_USAGE_VIA_NAMESPACES_</code></a>: <a href="#Tools">Tools</a></li>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCODETOOLS_005fPROFILE_005f-157"><code>_R_CHECK_CODETOOLS_PROFILE_</code></a>: <a href="#Tools">Tools</a></li>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCODOC_005fS4_005fMETHODS_005f-124"><code>_R_CHECK_CODOC_S4_METHODS_</code></a>: <a href="#Tools">Tools</a></li>
 <li><a href="#index-g_t_005fR_005fCHECK_005fCOMPACT_005fDATA_005f-140"><code>_R_CHECK_COMPACT_DATA_</code></a>: <a href="#Tools">Tools</a></li>
@@ -4836,7 +4857,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <li><a href="#index-DispatchOrEval-61"><code>DispatchOrEval</code></a>: <a href="#Argument-evaluation">Argument evaluation</a></li>
 <li><a href="#index-dump_002eframes-104"><code>dump.frames</code></a>: <a href="#Global-environment">Global environment</a></li>
 <li><a href="#index-DUPLICATE_005fATTRIB-46"><code>DUPLICATE_ATTRIB</code></a>: <a href="#Attributes">Attributes</a></li>
-<li><a href="#index-emacs-175"><code>emacs</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
+<li><a href="#index-emacs-176"><code>emacs</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
 <li><a href="#index-error-79"><code>error</code></a>: <a href="#Warnings-and-errors">Warnings and errors</a></li>
 <li><a href="#index-errorcall-80"><code>errorcall</code></a>: <a href="#Warnings-and-errors">Warnings and errors</a></li>
 <li><a href="#index-Free-84"><code>Free</code></a>: <a href="#Memory-allocators">Memory allocators</a></li>
@@ -4844,17 +4865,17 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <li><a href="#index-invisible-71"><code>invisible</code></a>: <a href="#Autoprinting">Autoprinting</a></li>
 <li><a href="#index-last_002ewarning-100"><code>last.warning</code></a>: <a href="#Base-environment">Base environment</a></li>
 <li><a href="#index-LEVELS-20"><code>LEVELS</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
-<li><a href="#index-make-172"><code>make</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
-<li><a href="#index-makeinfo-174"><code>makeinfo</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
-<li><a href="#index-MISSING-24"><code>MISSING</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
+<li><a href="#index-make-173"><code>make</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
+<li><a href="#index-makeinfo-175"><code>makeinfo</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
 <li><a href="#index-MISSING-65"><code>MISSING</code></a>: <a href="#Missingness">Missingness</a></li>
+<li><a href="#index-MISSING-24"><code>MISSING</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
 <li><a href="#index-mkChar-75"><code>mkChar</code></a>: <a href="#The-CHARSXP-cache">The CHARSXP cache</a></li>
 <li><a href="#index-mkCharLenCE-76"><code>mkCharLenCE</code></a>: <a href="#The-CHARSXP-cache">The CHARSXP cache</a></li>
+<li><a href="#index-NAMED-112"><code>NAMED</code></a>: <a href="#g_t_002eInternal-vs-_002ePrimitive">.Internal vs .Primitive</a></li>
 <li><a href="#index-NAMED-55"><code>NAMED</code></a>: <a href="#Argument-evaluation">Argument evaluation</a></li>
 <li><a href="#index-NAMED-16"><code>NAMED</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
-<li><a href="#index-NAMED-112"><code>NAMED</code></a>: <a href="#g_t_002eInternal-vs-_002ePrimitive">.Internal vs .Primitive</a></li>
 <li><a href="#index-named-bit-15"><code>named bit</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
-<li><a href="#index-Perl-173"><code>Perl</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
+<li><a href="#index-Perl-174"><code>Perl</code></a>: <a href="#R-coding-standards">R coding standards</a></li>
 <li><a href="#index-PRIMPRINT-70"><code>PRIMPRINT</code></a>: <a href="#Autoprinting">Autoprinting</a></li>
 <li><a href="#index-PRSEEN-29"><code>PRSEEN</code></a>: <a href="#Rest-of-header">Rest of header</a></li>
 <li><a href="#index-R_005falloc-81"><code>R_alloc</code></a>: <a href="#Memory-allocators">Memory allocators</a></li>
@@ -4908,7 +4929,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <li><a href="#index-base-environment-93">base environment</a>: <a href="#Base-environment">Base environment</a></li>
 <li><a href="#index-base-namespace-40">base namespace</a>: <a href="#Namespaces">Namespaces</a></li>
 <li><a href="#index-builtin-function-56">builtin function</a>: <a href="#Argument-evaluation">Argument evaluation</a></li>
-<li><a href="#index-coding-standards-171">coding standards</a>: <a href="#R-coding-standards">R coding standards</a></li>
+<li><a href="#index-coding-standards-172">coding standards</a>: <a href="#R-coding-standards">R coding standards</a></li>
 <li><a href="#index-context-51">context</a>: <a href="#Contexts">Contexts</a></li>
 <li><a href="#index-copying-semantics-47">copying semantics</a>: <a href="#Attributes">Attributes</a></li>
 <li><a href="#index-copying-semantics-18">copying semantics</a>: <a href="#Rest-of-header">Rest of header</a></li>

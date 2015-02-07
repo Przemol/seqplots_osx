@@ -7,7 +7,7 @@ Description: The ability to efficiently represent and manipulate genomic
 	intervals. Specialized containers for representing and manipulating
 	short alignments against a reference genome are defined in the
 	GenomicAlignments package.
-Version: 1.18.3
+Version: 1.18.4
 Author: P. Aboyoun, H. Pages and M. Lawrence
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 biocViews: Genetics, Infrastructure, Sequencing, Annotation, Coverage,
@@ -39,5 +39,5 @@ Collate: utils.R phicoef.R transcript-utils.R constraint.R
         findOverlaps-GIntervalTree-methods.R nearest-methods.R
         mapCoords-methods.R tile-methods.R test_GenomicRanges_package.R
         zzz.R
-Packaged: 2014-11-19 02:31:57 UTC; biocbuild
-Built: R 3.1.2; x86_64-apple-darwin10.8.0; 2014-11-19 15:52:43 UTC; unix
+Packaged: 2015-01-07 02:41:20 UTC; biocbuild
+Built: R 3.1.2; x86_64-apple-darwin10.8.0; 2015-01-07 16:01:32 UTC; unix

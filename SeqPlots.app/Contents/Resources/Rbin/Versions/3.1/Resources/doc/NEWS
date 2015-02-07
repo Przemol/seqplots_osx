@@ -1,11 +1,218 @@
 R News
 
-CHANGES IN R 3.1.0 patched:
+CHANGES IN R 3.1.2:
 
   NEW FEATURES:
 
-    * configure option --with-internal-tzcode can now be used with
-      variable rsharedir.
+    * embedFonts() now defaults to format = "ps2write" for .ps and .eps
+      files.  This is available in Ghostscript 9.x (since 2010) whereas
+      the previous default, format = "pswrite", was removed in
+      Ghostscript 9.10.
+
+    * For consistency with [dpqr]norm(), [dp]lnorm(sdlog = 0) model a
+      point mass at exp(mulog) rather than return NaN (for an error).
+
+    * capabilities() now reports if ICU is compiled in for use for
+      collation (it is only actually used if a suitable locale is set
+      for collation, and never for a C locale).
+
+    * (OS X only.) Package tcltk checks when loaded if it is linked
+      against the CRAN X11-based Tcl/Tk and if so that the Tcl/Tk
+      component and the X11 libraries are installed.  This allows more
+      informative error messages to be given advising the installation
+      of the missing component or of XQuartz.
+
+      The X11() device and X11-based versions of the data editor and
+      viewer (invoked by edit() and View() for data frames and matrices
+      from command-line R) check that the X11 libraries are installed
+      and if not advises installing XQuartz.
+
+    * icuSetCollate() allows locale = "default", and locale = "none" to
+      use OS services rather than ICU for collation.
+
+      Environment variable R_ICU_LOCALE can be used to set the default
+      ICU locale, in case the one derived from the OS locale is
+      inappropriate (this is currently necessary on Windows).
+
+    * New function icuGetCollate() to report on the ICU collation
+      locale in use (if any).
+
+    * utils::URLencode() was updated to use unreserved and reserved
+      characters from RFC 3986, <URL:
+      http://tools.ietf.org/html/rfc3986>, instead of RFC 1738.
+
+    * unique(warnings()) and c(warnings()) are now supported.
+
+    * The Bioconductor 'version' used by setRepositories() now defaults
+      to 3.0. (It can be set at runtime _via_ environment variable
+      R_BIOC_VERSION.)
+
+  INSTALLATION and INCLUDED SOFTWARE:
+
+    * The configure script reports on the more important
+      capabilities/options which will not be compiled in.
+
+      More types of external BLAS are recognized by name in that
+      report.
+
+    * When building R as a shared library, the -L${R_HOME}/lib${R_ARCH}
+      flag is placed earlier in the link commands used during
+      installation and when packages are installed: this helps ensure
+      that the current build has priority if an R shared library has
+      already been installed by e.g. install-libR in a library
+      mentioned in LDFLAGS (and not in 'your system's library
+      directory' as documented). (Wish of PR#15790.)
+
+    * LaTeX package upquote is no longer required for R's use of
+      inconsolata.
+
+    * (Windows only) If both 32 and 64 bit versions of R are installed,
+      the bin/R.exe and bin/Rscript.exe executables now run 64 bit R.
+      (To run 32 bit R, overwrite these files with copies of
+      bin/i386/Rfe.exe.)
+
+  UTILITIES:
+
+    * Running R CMD check with _R_CHECK_DEPENDS_ONLY_ true now makes
+      the VignetteBuilder packages available even if they are listed in
+      Suggests, since they are needed to recognise and process
+      non-Sweave vignettes.
+
+    * R CMD check now reports empty importFrom declarations in a
+      NAMESPACE file, as these are common errors (writing
+      importFrom(Pkg) where import(Pkg) was intended).
+
+    * R CMD check now by default checks code usage directly on the
+      package namespace without loading and attaching the package and
+      its suggests and enhances.  For good practice with packages in
+      the Suggests field, see SS1.1.3.1 of 'Writing R Extensions'.  For
+      use of lazy-data objects in the package's own code, see ?data.
+
+  BUG FIXES:
+
+    * dmultinom() did not handle non-finite probabilities correctly.
+
+    * prettyNum(x, zero.print=*) now also works when x contains NAs.
+
+    * A longstanding bug exhibited by nlminb() on Windows was traced to
+      a compiler bug in gcc 4.6.3; a workaround has been put in place.
+      (PR#15244 and PR#15914).
+
+    * Rendering of \command in HTML versions of help pages has been
+      improved: this is particularly evident on the help page for
+      INSTALL.
+
+    * as.hexmode(x) and as.octmode(x) now behave correctly for some
+      numeric x, e.g., c(NA, 1) or c(1, pi).
+
+    * drop1() failed if the scope argument had no variables to drop.
+      (PR#15935)
+
+    * edit() (and hence fix()) failed if an object had a non-character
+      attribute named "source" (an attribute that had been used in R
+      prior to version 2.14.0).
+
+    * callGeneric() could fail if the generic had ... as a formal
+      argument. (PR#15937).
+
+    * Forking in package parallel called C entry point exit in the
+      child.  This was unsafe (_exit should have been called), and
+      could flush stdin of the main R process (seen most often on
+      Solaris).
+
+      As good practice, stdout is now flushed before forking a child.
+
+    * R objects such as list(`a\b` = 1) now print correctly.
+
+    * getAnywhere("C_pbinom") now returns correctly a single object
+      (rather than unlisting it).
+
+    * The confint() method for nls() fits failed it these has specified
+      parameter limits despite using an algorithm other than "port".
+      (PR#15960)
+
+    * Subclassing an S4 class failed if the class required arguments to
+      the generator, through its initialize() method.
+
+    * removeSource() did not properly handle expressions containing
+      arguments that were supplied as missing, e.g.  x[i,]. (PR#15957)
+
+    * as.environment(list()) now works, and as.list() of such an
+      environment is now the same as list().
+
+    * Several tcltk functions failed when run in unusual environments.
+      (PR#15970)
+
+    * options(list()) now works (trivially). (PR#15979)
+
+    * merge(<dendrogram>, ..) now works correctly for two `independent'
+      dendrograms (PR#15648), and still compatibly via adjust = "auto"
+      e.g. for two branches of an existing dendrogram.
+
+    * The plot method for "hclust" objects gets an optional argument
+      check; When that is true (the default) it checks more carefully
+      for valid input.
+
+    * (Windows only) If a user chose to install 64 bit R but not 32 bit
+      R, the bin/R and bin/Rscript executables failed to run.
+      (PR#15981)
+
+    * Various possible buffer overruns have been prevented, and missed
+      memory protection added. (PR#15990)
+
+    * Rscript no longer passes --args to R when there are no extra
+      ("user") arguments.
+
+    * objects like getClass("refClass")@prototype now print() and str()
+      without error.
+
+    * identical() now also looks at the S4 bit.
+
+    * hist(x, breaks) is more robust in adding a small fuzz to few
+      breaks when some are very large. (PR#15988)
+
+    * sub() and gsub() did not handle regular expressions like "\s{2,}"
+      properly if the text contained NA or non-ascii elements in a
+      UTF-8 locale.  Part of this was due to a bug in the TRE library.
+      (PR#16009)
+
+    * RShowDoc("NEWS") now displays the PDF version.
+
+    * Matrices and arrays with last dimension zero did not print at all
+      or incompletely.  (PR#16012)
+
+    * plot.histogram() and hence hist() now respect the xaxs, yaxs and
+      lab graphics parameters.  (PR#16021)
+
+    * bw.SJ(x) and other bw.*() no longer segfault when x contains
+      non-finite values. (PR#16024)
+
+    * R CMD Rd2pdf unintentionally ignored its --os option.
+
+    * The internal method of download.file() was not reporting file
+      sizes and progress correctly on files larger than 2GB (inherited
+      from libxml2).  This is corrected for 64-bit builds (32-bit
+      platforms may not support such files, but where possible will be
+      supported in future versions of R).
+
+    * Work around a bug in OS X Yosemite where key environment
+      variables may be duplicated causing issues in subprocesses. The
+      duplicates are now removed on R startup (via Rprofile).
+      (PR#16042)
+
+    * Adjust X11 auto-launch detection in DISPLAY on OS X to recognize
+      latest XQuartz.
+
+CHANGES IN R 3.1.1:
+
+  NEW FEATURES:
+
+    * When attach() reports conflicts, it does so compatibly with
+      library() by using message().
+
+    * R CMD Sweave no longer cleans any files by default, compatibly
+      with versions of R prior to 3.1.0.  There are new options
+      --clean, --clean=default and --clean=keepOuts.
 
     * tools::buildVignette() and tools::buildVignettes() with clean =
       FALSE no longer remove any created files.  buildvignette() gains
@@ -14,8 +221,8 @@ CHANGES IN R 3.1.0 patched:
     * The Bioconductor 'version' used by setRepositories() can now be
       set by environment variable R_BIOC_VERSION at runtime, not just
       when R is installed.  (It has been stated that Bioconductor will
-      switch from version 2.14 to version 3.0 during the lifetime of
-      the R 3.1 series.)
+      switch from 'version' 2.14 to 'version' 3.0 during the lifetime
+      of the R 3.1 series.)
 
     * Error messages from bugs in embedded Sexpr code in Sweave
       documents now report the source location.
@@ -23,33 +230,79 @@ CHANGES IN R 3.1.0 patched:
     * type.convert(), read.table() and similar read.*() functions get a
       new numerals argument, specifying how numeric input is converted
       when its conversion to double precision loses accuracy.  The
-      default exact = "allow.loss" allows accuracy loss, as in all R
+      default value, "allow.loss" allows accuracy loss, as in R
       versions before 3.1.0.
 
-    * For some compiler versions, integer addition could accidentally
-      overflow (without a warning).  R's internal code should be more
-      "robust" now, thanks to Herv'e Pag`es.  (PR#15774)
+    * For some compilers, integer addition could overflow without a
+      warning.  R's internal code for both integer addition and
+      subtraction is more robust now.  (PR#15774)
 
     * The function determining the default number of knots for
-      smooth.spline() is now exported, as .nknots.smspl.
+      smooth.spline() is now exported, as .nknots.smspl().
 
-    * dbeta(., a,b), pbeta(), qbeta() and rbeta() are now defined also
-      for a=0, b=0, or infinite a and b (where they typically returned
-      NaN before).
+    * dbeta(, a,b), pbeta(), qbeta() and rbeta() are now defined also
+      for a = 0, b = 0, or infinite a and b (where they typically
+      returned NaN before).
+
+    * Many package authors report that the RStudio graphics device does
+      not work correctly with their package's use of dev.new().  The
+      new option dev.new(noRStudioGD = TRUE) replaces the RStudio
+      override by the default device as selected by R itself, still
+      respecting environment variables R_INTERACTIVE_DEVICE and
+      R_DEFAULT_DEVICE.
+
+    * readRDS() now returns visibly.
+
+    * Modifying internal logical scalar constants now results in an
+      error instead of a warning.
+
+    * install.packages(repos = NULL) now accepts http:// or ftp:// URLs
+      of package archives as well as file paths, and will download as
+      required.  In most cases repos = NULL can be deduced from the
+      extension of the URL.
+
+    * The warning when using partial matching with the $ operator on
+      data frames is now only given when
+      options("warnPartialMatchDollar") is TRUE.
+
+    * Package help requests like package?foo now try the package foo
+      whether loaded or not.
+
+    * General help requests now default to trying all loaded packages,
+      not just those on the search path.
+
+    * Added a new function promptImport(), to generate a help page for
+      a function that was imported from another package (and presumably
+      re-exported, or help would not be needed).
 
   INSTALLATION and INCLUDED SOFTWARE:
 
+    * configure option --with-internal-tzcode can now be used with
+      variable rsharedir.
+
     * The included version of PCRE has been updated to 8.35.
+
+    * There is a new target make uninstall-libR to remove an installed
+      shared/static libR.
+
+      make install-libR now works if a sub-architecture is used,
+      although the user will need to specify libdir differently for
+      different sub-architectures.
+
+    * There is more extensive advice on which LaTeX packages are
+      required to install R or to make package manuals (as done by R
+      CMD check) in the 'Writing R Extensions' manual.
+
+    * Compilers/linkers were handling the visibility control in
+      src/extra/xz inconsistently (and apparently in some cases
+      incorrectly), so it has been simplified.  (PR#15327)
+
+    * (Windows) There is updated support for the use of ICU for
+      collation: see the 'R Installation and Administration Manual'.
 
   BUG FIXES:
 
-    * When attach() notices conflicts, it does so compatibly with
-      library(), using message().
-
-    * R CMD Sweave no longer cleans any files, compatibly with versions
-      of R prior to 3.1.0.
-
-    * dbinom(x,n), pbinom(), dpois(), etc, are slightly less
+    * dbinom(x, n), pbinom(), dpois(), etc, are slightly less
       restrictive in checking if n is integer-valued.  (Wish of
       PR#15734.)
 
@@ -62,9 +315,8 @@ CHANGES IN R 3.1.0 patched:
       into expressions evaluated there, not just into functions being
       debugged.  (PR#15770)
 
-    * The third-party code used by strptime() rejected time-zone
-      offsets of more than +1200 (+1245, +1300 and +1400 can occur).
-      (PR#15768)
+    * The C code used by strptime() rejected time-zone offsets of more
+      than +1200 (+1245, +1300 and +1400 can occur).  (PR#15768)
 
     * (Windows only.)  png(type = "cairo", antialias = "gray") was not
       accepted.  (PR#15760)
@@ -86,27 +338,108 @@ CHANGES IN R 3.1.0 patched:
       Mammana (MPI MolGen, Berlin).
 
     * pbeta(x, a, b, log = TRUE) no longer behaves discontinuously (in
-      a small x-region) because of denormalized numbers.
+      a small x-region) because of denormalized numbers.  Also,
+      pbeta(1-1e-12, 1e30, 1.001, log=TRUE) now terminates "in real
+      time".
 
     * The "CRAN" filter (see available.packages()) no longer removes
-      duplicates other than of packages on CRAN.
+      duplicates other than of packages on CRAN, and does not fail if
+      there is no CRAN repository in getOption("repos").
 
     * The device listing from dev2bitmap() and bitmap() was truncated
       to 1000 characters: modern versions of GhostScript on most
       platforms have many more devices.
 
     * (Windows.)  Commands such as Sys.which() and pipe() which needed
-      to find the full path to a command could segfault if the long
-      path name was much longer than the short path name (which
-      Sys.which() returns).
+      to find the full path to a command could segfault if the 'long'
+      path name was much longer than the 'short' path name (which
+      Sys.which() returns), as the behaviour of the Windows API call
+      had changed.
 
     * R CMD build will fail with an error if one of the packages
       specified in the VignetteBuilder field is not installed.
       (Without loading those packages it cannot be ascertained which
-      files are intended to be vignettes.)  (Wish of PR#15775.)
+      files are intended to be vignettes. This means that the
+      VignetteBuilder packages have to be installed for package
+      checking too.)  (Wish of PR#15775.)
 
     * Misguided attempts to use chull() with non-finite points now give
       an error (related to PR#15777).
+
+    * For a formula with exactly 32 variables the 32nd variable was
+      aliased to the intercept in some C-level computations of terms,
+      so that for example attempting to remove it would remove the
+      intercept instead (and leave a corrupt internal structure).
+      (PR#15735)
+
+    * anyDuplicated() silently returned wrong values when the first
+      duplicate was at an index which was too large to be stored in an
+      integer vector (although a lot of RAM and patience would have
+      been needed to encounter this).
+
+    * tools::Rd2ex(commentDontrun = FALSE) failed if the block had only
+      one line.
+
+    * Hexadecimal constants such as 0x110p-5L which were incorrectly
+      qualified by L were parsed incorrectly since R 3.0.0, with a
+      slightly garbled warning. (PR#15753)
+
+    * system() returned success on some platforms even if the system
+      was unable to launch a process. (PR#15796)
+
+    * (Windows Rgui console.)  Unbuffered output was sometimes not
+      output immediately if the prompt was not on the last line of the
+      console.
+
+    * The built-in help server did not declare the encoding for the
+      DESCRIPTION or other text files to be the package encoding, so
+      non-ASCII characters could be displayed incorrectly.
+
+    * R is now trying harder to not cleanup child processes that were
+      not spawned by mcparallel() on platforms that provide information
+      about the source process of the SIGCHLD signal. This allows 3rd
+      party libraries to manage the exit status of children that they
+      spawn without R interfering.
+
+    * mcmapply() was only parallelizing if the number of jobs was
+      bigger than the number of cores. It now parallelizes if the
+      number of jobs is more than one.
+
+    * Auto-printing would re-evaluate its argument when trying to
+      dispatch to a print method.  This is now avoided when possible.
+
+    * Unserializing (including load() and readRDS()) could silently
+      return incorrect numeric values from ASCII saves if there was a
+      read error.
+
+    * getParseData() could return incorrect values for the parents of
+      some elements. (Reported by Andrew Redd.)
+
+    * Attempting to use data frames of 2^31 or more rows with merge()
+      or to create a merged data frame of that size now gives a clearer
+      error message.
+
+    * parse() did not check its file argument was a connection if it
+      was not a character string, so e.g. parse(FALSE) attempted to
+      read from stdin.
+
+      Nor did dump() and dput().
+
+    * The "help.try.all.packages" option was ignored when the shortcut
+      syntax for help was used, e.g. ?foo.
+
+    * A potential segfault in string allocation has been fixed.  (Found
+      by Radford Neal.)
+
+    * Potential memory protection errors in sort() and D() have been
+      fixed. (Found by Radford Neal.)
+
+    * Fixed a lack of error checking in graphics event functions.
+      (Found by Radford Neal; a different patch used here than the one
+      in pqR.)
+
+    * numericDeriv() sometimes miscalculated the gradient.  (PR#15849,
+      reported originally by Radford Neal)
 
 CHANGES IN R 3.1.0:
 
@@ -207,9 +540,9 @@ CHANGES IN R 3.1.0:
       X.)
 
       Currently time_t is usually long and hence 64-bit on Unix-alike
-      64-bit platforms: however it several cases the time-zone database
-      is 32-bit.  On R for Windows it is 64-bit (for both architectures
-      as from this version).
+      64-bit platforms: however in several cases the time-zone database
+      is 32-bit.  For R for Windows it is 64-bit (for both
+      architectures as from this version).
 
     * The "save.defaults" option can include a value for
       compression_level.  (Wish of PR#15579.)
@@ -355,8 +688,8 @@ CHANGES IN R 3.1.0:
       inaccurately (and with platform-dependent values).
 
       Programmers who use summary() in order to extract just a
-      component which will be reliable (e.g. $cov.unscaled) should wrap
-      their calls in suppressWarnings().
+      component which will be reliable (e.g., $cov.unscaled) should
+      wrap their calls in suppressWarnings().
 
   INSTALLATION and INCLUDED SOFTWARE:
 
@@ -402,7 +735,7 @@ CHANGES IN R 3.1.0:
       some basic features.  This by default tries flags for the
       compiler specified by CXX, but an alternative compiler, options
       and standard can be specified by variables CXX1X, CXX1XFLAGS and
-      CXX1XSTD (e.g. -std=gnu++11).
+      CXX1XSTD (e.g., -std=gnu++11).
 
     * R can now optionally be compiled to use reference counting
       instead of the NAMED mechanism by defining SWITCH_TO_REFCNT in
@@ -606,8 +939,8 @@ CHANGES IN R 3.1.0:
       in the Fortran code and a not very sensible answer.  It is now
       special-cased with a simpler answer (no qr component).
 
-    * Error messages involving non-syntactic names (e.g. as produced by
-      `\r` when that object does not exist) now encode the control
+    * Error messages involving non-syntactic names (e.g., as produced
+      by `\r` when that object does not exist) now encode the control
       characters.  (Reported by Hadley Wickham.)
 
     * getGraphicsEvent() caused 100% usage of one CPU in Windows.
@@ -726,7 +1059,7 @@ CHANGES IN R 3.0.3:
 
     * strptime() now checks the locale only when locale-specific
       formats are used and caches the locale in use: this can halve the
-      time taken on OSes with slow system functions (e.g. OS X).
+      time taken on OSes with slow system functions (e.g., OS X).
 
     * strptime() and the format() methods for classes "POSIXct",
       "POSIXlt" and "Date" recognize strings with marked encodings:
@@ -852,7 +1185,7 @@ CHANGES IN R 3.0.3:
     * Saved vignette results (in a .Rout.save file) were not being
       compared to the new ones during R CMD check.
 
-    * Double-clicking outside of the list box (e.g. on the scrollbar)
+    * Double-clicking outside of the list box (e.g., on the scrollbar)
       of a Tk listbox widget generated by tk_select.list() no longer
       causes the window to close. (PR#15407)
 
@@ -867,7 +1200,7 @@ CHANGES IN R 3.0.3:
 
     * (Windows only) When a call to system2() specified one of stdin,
       stdout or stderr to be a file, but the command was not found
-      (e.g. it contained its arguments, or the program was not on the
+      (e.g., it contained its arguments, or the program was not on the
       PATH), it left the file open and unusable until R terminated.
       (Reported by Mathew McLean.)
 
@@ -992,7 +1325,7 @@ CHANGES IN R 3.0.2:
 
     * Various functions in stats and elsewhere that use non-standard
       evaluation are now more careful to follow the namespace scoping
-      rules.  E.g. stats::lm() can now find stats::model.frame() even
+      rules.  E.g., stats::lm() can now find stats::model.frame() even
       if stats is not on the search path or if some package defines a
       function of that name.
 
@@ -1002,7 +1335,7 @@ CHANGES IN R 3.0.2:
       choose a random port.)
 
     * seq() and seq.int() give more explicit error messages if called
-      with invalid (e.g. NaN) inputs.
+      with invalid (e.g., NaN) inputs.
 
     * When parse() finds a syntax error, it now makes partial parse
       information available up to the location of the error.  (Request
@@ -1078,7 +1411,7 @@ CHANGES IN R 3.0.2:
 
     * checkFF() (used by R CMD check) does a better job of detecting
       calls from other packages, including not reporting those where a
-      function has been copied from another namespace (e.g. as a
+      function has been copied from another namespace (e.g., as a
       default method).  It now reports calls where .NAME is a symbol
       registered in another package.
 
@@ -1318,8 +1651,8 @@ CHANGES IN R 3.0.2:
       (PR#15376)
 
     * The parser now enforces C99 syntax for floating point hexadecimal
-      constants (e.g. 0x1.1p0), rather than returning unintended values
-      for malformed constants. (PR#15234)
+      constants (e.g., 0x1.1p0), rather than returning unintended
+      values for malformed constants. (PR#15234)
 
     * model.matrix() now works with very long LHS names (more than 500
       bytes).  (PR#15377)
@@ -1510,7 +1843,7 @@ CHANGES IN R 3.0.1:
       instead.
 
     * In R 3.0.0, identify() and locator() did not record information
-      correctly, so replaying a graph (e.g. by copying it to another
+      correctly, so replaying a graph (e.g., by copying it to another
       device) would fail. (PR#15271)
 
     * Calling file.copy() or dirname() with the invalid input "" (which
@@ -1578,7 +1911,7 @@ CHANGES IN R 3.0.0:
 
     * It is now possible for 64-bit builds to allocate amounts of
       memory limited only by the OS.  It may be wise to use OS
-      facilities (e.g. ulimit in a bash shell, limit in csh), to set
+      facilities (e.g., ulimit in a bash shell, limit in csh), to set
       limits on overall memory consumption of an R process,
       particularly in a multi-user environment.  A number of packages
       need a limit of at least 4GB of virtual memory to load.
@@ -1649,7 +1982,7 @@ CHANGES IN R 3.0.0:
       documented to do so.
 
     * Sys.which() when used with inputs which would be unsafe in a
-      shell (e.g. absolute paths containing spaces) now uses
+      shell (e.g., absolute paths containing spaces) now uses
       appropriate quoting.
 
     * as.tclObj() has been extended to handle raw vectors.  Previously,
@@ -1733,7 +2066,7 @@ CHANGES IN R 3.0.0:
     * backsolve() (and forwardsolve()) are now internal functions, for
       speed and support for large matrices.
 
-    * More matrix algebra functions (e.g. chol() and solve()) accept
+    * More matrix algebra functions (e.g., chol() and solve()) accept
       logical matrices (and coerce to numeric).
 
     * sample.int() has some support for n >= 2^31: see its help for the
@@ -1996,8 +2329,8 @@ CHANGES IN R 3.0.0:
     * Most operations which can sensibly be done with long vectors
       work: others may return the error 'long vectors not supported
       yet'.  Most of these are because they explicitly work with
-      integer indices (e.g. anyDuplicated() and match()) or because
-      other limits (e.g. of character strings or matrix dimensions)
+      integer indices (e.g., anyDuplicated() and match()) or because
+      other limits (e.g., of character strings or matrix dimensions)
       would be exceeded or the operations would be extremely slow.
 
     * length() returns a double for long vectors, and lengths can be
@@ -2065,7 +2398,7 @@ CHANGES IN R 3.0.0:
     * eigen() makes fewer copies if the input has dimnames.
 
     * Most of the linear algebra functions make fewer copies when the
-      input(s) are not double (e.g. integer or logical).
+      input(s) are not double (e.g., integer or logical).
 
     * A foreign function call (.C() etc) in a package without a PACKAGE
       argument will only look in the first DLL specified in the
@@ -2189,8 +2522,8 @@ CHANGES IN R 3.0.0:
       object is now an error.
 
     * Several non-API entry points have been transferred to packages
-      (e.g. R_zeroin2) or replaced by different non-API entry points
-      (e.g. R_tabulate).
+      (e.g., R_zeroin2) or replaced by different non-API entry points
+      (e.g., R_tabulate).
 
     * The 'internal' graphics device invoked by
       .Call("R_GD_nullDevice", package = "grDevices") has been removed:

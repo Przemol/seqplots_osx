@@ -63,8 +63,8 @@ recordPlot              Record and Replay Plots
 rgb                     RGB Color Specification
 rgb2hsv                 RGB to HSV Conversion
 savePlot                Save Cairo X11 Plot to File
-svg                     Cairo-based SVG, PDF and PostScript Graphics
-                        Devices
+svg                     Cairographics-based SVG, PDF and PostScript
+                        Graphics Devices
 trans3d                 3D to 2D Transformation for Perspective Plots
 x11                     X Window System Graphics
 xfig                    XFig Graphics Device

@@ -1,6 +1,7 @@
 #!/bin/sh
 # Shell wrapper for R executable.
 
+#R_HOME_DIR=/Library/Frameworks/R.framework/Resources
 if test "${R_HOME_DIR}" = "/Library/Frameworks/lib/R"; then
    case "darwin10.8.0" in
    linux*)

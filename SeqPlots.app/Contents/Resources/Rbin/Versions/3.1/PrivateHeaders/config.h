@@ -30,6 +30,9 @@
 /* Define if F77 and FC dummy `main' functions are identical. */
 /* #undef FC_DUMMY_MAIN_EQ_F77 */
 
+/* Defined if framework Accelerate is present */
+#define HAVE_ACCELERATE_FW 1
+
 /* Define to 1 if you have the `access' function. */
 #define HAVE_ACCESS 1
 
@@ -110,12 +113,12 @@
 /* Define to 1 if you have the `cexp' function. */
 #define HAVE_CEXP 1
 
-/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
+/* Define to 1 if you have the OS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. (For intl) */
 #define HAVE_CFLOCALECOPYCURRENT 1
 
-/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
-   the CoreFoundation framework. (For intl) */
+/* Define to 1 if you have the OS X function CFPreferencesCopyAppValue in the
+   CoreFoundation framework. (For intl) */
 #define HAVE_CFPREFERENCESCOPYAPPVALUE 1
 
 /* Define to 1 if you have the `chdir' function. */
@@ -837,9 +840,6 @@
 /* Define to 1 if you have the `va_copy' function. */
 #define HAVE_VA_COPY 1
 
-/* Defined if framework vecLib is present */
-#define HAVE_VECLIB_FW 1
-
 /* Define to 1 or 0, depending whether the compiler supports simple visibility
    declarations. (For intl) */
 #define HAVE_VISIBILITY 1
@@ -961,7 +961,7 @@
 #define PACKAGE_NAME "R"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "R 3.1.0"
+#define PACKAGE_STRING "R 3.1.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "R"
@@ -970,7 +970,7 @@
 #define PACKAGE_URL "http://www.r-project.org"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.1.0"
+#define PACKAGE_VERSION "3.1.2"
 
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. (For intl)
    */
@@ -1124,7 +1124,7 @@
 #define VALGRIND_LEVEL 0
 
 /* Version number of package */
-#define VERSION "3.1.0"
+#define VERSION "3.1.2"
 
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */

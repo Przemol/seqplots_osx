@@ -18,6 +18,5 @@ Author: Brian Ripley [aut, cre, cph],
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-07-21 08:47:47
-Built: R 3.1.1; x86_64-apple-darwin10.8.0; 2014-07-22 10:01:52 UTC; unix
-Archs: class.so.dSYM
+Date/Publication: 2014-07-21 08:47:35
+Built: R 3.1.2; x86_64-apple-darwin10.8.0; 2014-10-31 20:16:08 UTC; unix

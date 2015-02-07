@@ -176,6 +176,7 @@ prompt	prompt
 prompt.data.frame	prompt
 prompt.default	prompt
 promptData	promptData
+promptImport	prompt
 promptPackage	promptPackage
 Question	Question
 rc.getOption	rcompgen
@@ -220,6 +221,7 @@ RweaveLatexOptions	SweaveUtils
 RweaveLatexSetup	RweaveLatex
 RweaveLatexWritedoc	SweaveUtils
 RweaveTryStop	SweaveUtils
+R_INSTALL_TAR	INSTALL
 savehistory	savehistory
 select.list	select.list
 sessionInfo	sessionInfo

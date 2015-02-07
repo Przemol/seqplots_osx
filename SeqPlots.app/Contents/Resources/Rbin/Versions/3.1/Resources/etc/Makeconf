@@ -61,6 +61,8 @@ LAPACK_LIBS = -L$(R_HOME)/lib$(R_ARCH) -lRlapack
 ## we only need this is if it is external, as otherwise link to R
 LIBINTL=   -Wl,-framework -Wl,CoreFoundation
 LIBM = 
+LIBR0 = -L$(R_HOME)/lib$(R_ARCH)
+LIBR1 = -lR
 LIBR = -F/Library/Frameworks/R.framework/.. -framework R
 LIBS =  -llzma -licucore -lm -liconv
 ## needed by R CMD config
@@ -95,7 +97,9 @@ SHLIB_FFLAGS =
 SHLIB_LD = $(CC)
 SHLIB_LDFLAGS = -dynamiclib -Wl,-headerpad_max_install_names  -undefined dynamic_lookup -single_module -multiply_defined suppress# $(CFLAGS) $(CPICFLAGS)
 SHLIB_LIBADD = 
-SHLIB_LINK = $(SHLIB_LD) $(SHLIB_LDFLAGS) $(LDFLAGS)
+## We want to ensure libR is picked up from $(R_HOME)/lib
+## before e.g. /usr/local/lib if a version is already installed.
+SHLIB_LINK = $(SHLIB_LD) $(SHLIB_LDFLAGS) $(LIBR0) $(LDFLAGS)
 SHLIB_OPENMP_CFLAGS = 
 SHLIB_OPENMP_CXXFLAGS = 
 SHLIB_OPENMP_FCFLAGS = 
@@ -119,6 +123,7 @@ ALL_CXXFLAGS = $(R_XTRA_CXXFLAGS) $(PKG_CXXFLAGS) $(CXXPICFLAGS) $(SHLIB_CXXFLAG
 ALL_OBJCFLAGS = $(PKG_OBJCFLAGS) $(CPICFLAGS) $(SHLIB_CFLAGS) $(OBJCFLAGS)
 ALL_OBJCXXFLAGS = $(PKG_OBJCXXFLAGS) $(CXXPICFLAGS) $(SHLIB_CXXFLAGS) $(OBJCXXFLAGS)
 ALL_FFLAGS = $(R_XTRA_FFLAGS) $(PKG_FFLAGS) $(FPICFLAGS) $(SHLIB_FFLAGS) $(FFLAGS)
+## LIBR here as a couple of packages use this without SHLIB_LINK
 ALL_LIBS = $(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR) $(LIBINTL)
 
 .SUFFIXES:

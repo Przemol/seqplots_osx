@@ -29,6 +29,7 @@ downloadButton	downloadButton
 downloadHandler	downloadHandler
 downloadLink	downloadButton
 em	builder
+eventReactive	observeEvent
 exprToFunction	exprToFunction
 fileInput	fileInput
 fixedPage	fixedPage
@@ -83,11 +84,13 @@ navlistPanel	navlistPanel
 need	validate
 numericInput	numericInput
 observe	observe
+observeEvent	observeEvent
 onReactiveDomainEnded	domains
 outputOptions	outputOptions
 p	builder
 pageWithSidebar	pageWithSidebar
 parseQueryString	parseQueryString
+passwordInput	passwordInput
 plotOutput	plotOutput
 plotPNG	plotPNG
 pre	builder
@@ -126,6 +129,7 @@ serverInfo	serverInfo
 session	session
 setProgress	withProgress
 shiny	shiny-package
+shiny-options	shiny-options
 shinyApp	shinyApp
 shinyAppDir	shinyApp
 shinyDeprecated	shinyDeprecated

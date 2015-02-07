@@ -80,6 +80,7 @@ makeFileCache	makeFileCache
 makeProgressBar	makeProgressBar
 makeS3Obj	makeS3Obj
 makeSimpleFileLogger	makeSimpleFileLogger
+mapValues	mapValues
 messagef	messagef
 namedList	namedList
 names2	names2

@@ -52,7 +52,7 @@ ul.menu{list-style-type: decimal}
 <body>
 <h1 class="settitle">R FAQ</h1>
 <h2>Frequently Asked Questions on R</h2>
-<h2>Version 3.1.2014-04-05</h2>
+<h2>Version 3.1.2014-10-26</h2>
 <address>Kurt Hornik</address>
 <p><p><hr><p>
 
@@ -79,7 +79,7 @@ ul.menu{list-style-type: decimal}
 <ul>
 <li><a href="#How-can-R-be-installed-_0028Unix_002dlike_0029">2.5.1 How can R be installed (Unix-like)</a>
 <li><a href="#How-can-R-be-installed-_0028Windows_0029">2.5.2 How can R be installed (Windows)</a>
-<li><a href="#How-can-R-be-installed-_0028Macintosh_0029">2.5.3 How can R be installed (Macintosh)</a>
+<li><a href="#How-can-R-be-installed-_0028Mac_0029">2.5.3 How can R be installed (Mac)</a>
 </li></ul>
 <li><a href="#Are-there-Unix_002dlike-binaries-for-R_003f">2.6 Are there Unix-like binaries for R?</a>
 <li><a href="#What-documentation-exists-for-R_003f">2.7 What documentation exists for R?</a>
@@ -341,11 +341,11 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Introduction">Introduction</a>
 <p>Feedback via email to <a href="mailto:Kurt.Hornik@R-project.org">Kurt.Hornik@R-project.org</a> is of course
 most welcome.
 
-   <p>In particular, note that I do not have access to Windows or Macintosh
-systems.  Features specific to the Windows and Mac OS X ports of R are
+   <p>In particular, note that I do not have access to Windows or Mac
+systems.  Features specific to the Windows and OS X ports of R are
 described in the
 <a href="http://CRAN.R-project.org/bin/windows/base/rw-FAQ.html">&ldquo;R for Windows <acronym>FAQ</acronym>&rdquo;</a> and the
-<a href="http://CRAN.R-project.org/bin/macosx/RMacOSX-FAQ.html">&ldquo;R for Mac OS X <acronym>FAQ</acronym>&rdquo;</a>.  If you have information on Macintosh or Windows
+<a href="http://CRAN.R-project.org/bin/macosx/RMacOSX-FAQ.html">&ldquo;R for Mac OS X <acronym>FAQ</acronym>&rdquo;</a>.  If you have information on Mac or Windows
 systems that you think should be added to this document, please let me
 know.
 
@@ -491,7 +491,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#R-Basics">R Basics</a>
 
 <h3 class="section">2.3 What is the current version of R?</h3>
 
-<p>The current released version is 3.1.0.  Based on this
+<p>The current released version is 3.1.2.  Based on this
 ‘major.minor.patchlevel’ numbering scheme, there are two development
 versions of R, a patched version of the current release (‘r-patched’)
 and one working towards the next minor or eventually major (‘r-devel’)
@@ -560,7 +560,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#R-Basics">R Basics</a>
 <ul class="menu">
 <li><a accesskey="1" href="#How-can-R-be-installed-_0028Unix_002dlike_0029">How can R be installed (Unix-like)</a>
 <li><a accesskey="2" href="#How-can-R-be-installed-_0028Windows_0029">How can R be installed (Windows)</a>
-<li><a accesskey="3" href="#How-can-R-be-installed-_0028Macintosh_0029">How can R be installed (Macintosh)</a>
+<li><a accesskey="3" href="#How-can-R-be-installed-_0028Mac_0029">How can R be installed (Mac)</a>
 </ul>
 
 <div class="node">
@@ -645,7 +645,7 @@ respectively.
 <p><hr>
 <a name="How-can-R-be-installed-(Windows)"></a>
 <a name="How-can-R-be-installed-_0028Windows_0029"></a>
-Next:&nbsp;<a rel="next" accesskey="n" href="#How-can-R-be-installed-_0028Macintosh_0029">How can R be installed (Macintosh)</a>,
+Next:&nbsp;<a rel="next" accesskey="n" href="#How-can-R-be-installed-_0028Mac_0029">How can R be installed (Mac)</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#How-can-R-be-installed-_0028Unix_002dlike_0029">How can R be installed (Unix-like)</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#How-can-R-be-installed_003f">How can R be installed?</a>
 
@@ -668,20 +668,21 @@ versions of R.
 
 <div class="node">
 <p><hr>
-<a name="How-can-R-be-installed-(Macintosh)"></a>
-<a name="How-can-R-be-installed-_0028Macintosh_0029"></a>
+<a name="How-can-R-be-installed-(Mac)"></a>
+<a name="How-can-R-be-installed-_0028Mac_0029"></a>
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#How-can-R-be-installed-_0028Windows_0029">How can R be installed (Windows)</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#How-can-R-be-installed_003f">How can R be installed?</a>
 
 </div>
 
-<h4 class="subsection">2.5.3 How can R be installed (Macintosh)</h4>
+<h4 class="subsection">2.5.3 How can R be installed (Mac)</h4>
 
 <p>The <samp><span class="file">bin/macosx</span></samp> directory of a <acronym>CRAN</acronym> site contains a standard
 Apple installer package to run on OS X 10.6 (‘Snow Leopard’) and later. 
 Once downloaded and executed, the installer will install the current
-release of R and a R.app Mac OS X <acronym>GUI</acronym>.  This port of R for Mac
-OS X is maintained by <a href="mailto:Simon.Urbanek@R-project.org">Simon Urbanek</a> (and previously by Stefano Iacus).  The
+release of R and an R.app OS X <acronym>GUI</acronym>.  This port of R for OS X
+is maintained by <a href="mailto:Simon.Urbanek@R-project.org">Simon Urbanek</a>
+(and previously by Stefano Iacus).  The
 <a href="http://CRAN.R-project.org/bin/macosx/RMacOSX-FAQ.html">&ldquo;R for Mac OS X <acronym>FAQ</acronym></a> has more details.
 
    <p>Snapshots of the r-patched and r-devel versions of R are available as
@@ -699,47 +700,32 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#R-Basics">R Basics</a>
 
 <h3 class="section">2.6 Are there Unix-like binaries for R?</h3>
 
-<!-- Linux binaries as of 2011-07-05: -->
+<!-- Linux binaries as of 2014-07-27: -->
+<!-- Providers: -->
+<!-- Debian: Johannes Ranke <jranke@uni-bremen.de> -->
+<!-- Ubuntu: Michael Rutter <mar36@psu.edu> -->
 <!-- debian -->
-<!-- etch-cran -->
-<!-- i386   2.11.0  Johannes Ranke -->
-<!-- amd64  2.11.0  Johannes Ranke -->
-<!-- lenny-cran -->
-<!-- i386   2.13.0  Johannes Ranke -->
-<!-- amd64  2.13.0  Johannes Ranke -->
-<!-- squeeze-cran -->
-<!-- i386   2.13.0  Johannes Ranke -->
-<!-- amd64  2.13.0  Johannes Ranke -->
-<!-- redhat -->
-<!-- el4      i386   2.10.0  Bob Kinney <rhel_cran@hmdc.harvard.edu> -->
-<!-- x86_64 2.10.0  Bob Kinney <rhel_cran@hmdc.harvard.edu> -->
-<!-- el5      i386   2.10.0  Bob Kinney <rhel_cran@hmdc.harvard.edu> -->
-<!-- x86_64 2.10.0  Bob Kinney <rhel_cran@hmdc.harvard.edu> -->
-<!-- fedora10 i386   2.10.0  Martyn Plummer <Martyn.Plummer@R-project.org> -->
-<!-- x86_64 2.10.0  Martyn Plummer <Martyn.Plummer@R-project.org> -->
-<!-- fedora11 i386   2.10.0  Martyn Plummer <Martyn.Plummer@R-project.org> -->
-<!-- x86_64 2.10.0  Martyn Plummer <Martyn.Plummer@R-project.org> -->
+<!-- current: -->
+<!-- wheezy-cran3     i386/amd64/armel        3.1.1 -->
+<!-- squeeze-cran3    i386/amd64              3.1.1 -->
+<!-- archive: -->
+<!-- squeeze-cran     i386/amd64              2.15.3 -->
+<!-- lenny-cran       i386/amd64              2.14.1 -->
+<!-- etch-cran        i386/amd64              2.11.0 -->
 <!-- ubuntu -->
-<!-- intrepid [Intrepid Ibex, 8.10] -->
-<!-- i386   2.8.1  Vincent Goulet -->
-<!-- amd64  2.8.1  Michael Rutter -->
-<!-- hardy [Hardy Heron, 8.04] -->
-<!-- i386   2.8.1  Vincent Goulet -->
-<!-- amd64  2.8.1  Michael Rutter -->
-<!-- gutsy [Gutsy Gibbon, 7.10] -->
-<!-- i386   2.8.1  Vincent Goulet -->
-<!-- amd64  2.8.1  Michael Rutter -->
-<!-- dapper [Dapper Drake, 6.06] -->
-<!-- i386   2.8.1  Vincent Goulet -->
-<!-- amd64  2.8.1  Michael Rutter -->
+<!-- Trusty Tahr (14.04) -->
+<!-- Saucy Salamander (13.10) -->
+<!-- Quantal Quetzal (12.10) -->
+<!-- Precise Pangolin (12.04; LTS) -->
+<!-- Lucid Lynx (10.04; LTS) -->
 <p>The <samp><span class="file">bin/linux</span></samp> directory of a <acronym>CRAN</acronym> site contains the following
 packages.
 
    <blockquote>
         <p><table summary=""><tr align="left"><th valign="top"></th><th valign="top">CPU </th><th valign="top">Versions </th><th valign="top">Provider
-<br></th></tr><tr align="left"><td valign="top">Debian   </td><td valign="top">i386/amd64 </td><td valign="top">etch/lenny/squeeze </td><td valign="top">Johannes Ranke
-<br></td></tr><tr align="left"><td valign="top">Red Hat  </td><td valign="top">i386/x86_64 </td><td valign="top">fedora10/fedora11 </td><td valign="top">Martyn Plummer
-<br></td></tr><tr align="left"><td valign="top">Ubuntu   </td><td valign="top">i386/amd64 </td><td valign="top">hardy/lucid/natty/oneiric/precise </td><td valign="top">Michael Rutter
+<br></th></tr><tr align="left"><td valign="top">Debian   </td><td valign="top">i386/amd64  </td><td valign="top">squeeze/wheezy       </td><td valign="top">Johannes Ranke
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">armel       </td><td valign="top">wheezy               </td><td valign="top">Johannes Ranke
+<br></td></tr><tr align="left"><td valign="top">Ubuntu   </td><td valign="top">i386/amd64  </td><td valign="top">lucid/precise/trusty </td><td valign="top">Michael Rutter
         <br></td></tr></table>
 </blockquote>
 
@@ -759,42 +745,30 @@ provided by Michael Rutter.
 
    <p>R binaries for Fedora, maintained by Tom &ldquo;Spot&rdquo; Callaway, are provided
 as part of the Fedora distribution and can be accessed through
-<samp><span class="command">yum</span></samp>, the RPM installer/updater.  The Fedora R RPM is a
-&ldquo;meta-package&rdquo; which installs all the user and developer components of
-R (available separately as <code>R-core</code> and <code>R-devel</code>), as well as
-the standalone R math library (<code>libRmath</code> and
-<code>libRmath-devel</code>).  RPMs for a selection of R packages are also
-provided by Fedora.  The Extra Packages for Enterprise Linux (EPEL)
-project (<a href="http://fedoraproject.org/wiki/EPEL">http://fedoraproject.org/wiki/EPEL</a>) provides ports of the
-Fedora RPMs for RedHat Enterprise Linux and compatible distributions. 
-When a new version of R is released, there may be a delay of up to 2
-weeks until the Fedora RPM becomes publicly available, as it must pass
-through the statutory Fedora review process.
+<samp><span class="command">yum</span></samp>, the RPM installer/updater.  Note that the &ldquo;Software&rdquo;
+application (gnome-software), which is the default <acronym>GUI</acronym> for
+software installation in Fedora 20, cannot be used to install R.  It is
+therefore recommended to use the yum command line tool. 
+The Fedora R RPM is a &ldquo;meta-package&rdquo; which installs all the user and
+developer components of R (available separately as <code>R-core</code> and
+<code>R-devel</code>), as well as <code>R-java</code>, which ensures that R is
+configured for use with Java.  The R RPM also installs the standalone R
+math library (<code>libRmath</code> and <code>libRmath-devel</code>), although this
+is not necessary to use R.  When a new version of R is released, there
+may be a delay of up to 2 weeks until the Fedora RPM becomes publicly
+available, as it must pass through the statutory Fedora review process. 
+RPMs for a selection of R packages are also provided by Fedora.  The
+Extra Packages for Enterprise Linux (EPEL) project
+(<a href="http://fedoraproject.org/wiki/EPEL">http://fedoraproject.org/wiki/EPEL</a>) provides ports of the Fedora
+RPMs for RedHat Enterprise Linux and compatible distributions (e.g.,
+Centos, Scientific Linux, Oracle Linux).
 
    <p>See <a href="http://CRAN.R-project.org/bin/linux/suse/README.html">http://CRAN.R-project.org/bin/linux/suse/README.html</a> for
 information about RPMs for openSUSE.
 
-<!-- The @file{bin/osf} directory of a @CRAN{} site contains RPMs -->
-<!-- by Albrecht Gebhardt for alpha systems running Alpha Unix -->
-<!-- (OSF/Tru64). -->
-<!-- There are also ‘tar’ distributions for NEXTSTEP on the i386 and m68k -->
-<!-- platforms in @file{bin/nextstep/i386} and @file{bin/nextstep/m68k}, -->
-<!-- created by Stephen Shiboski <steve@biostat.ucsf.edu>. -->
-<!-- The @file{bin/solaris} directory of a @CRAN{} site contains binary -->
-<!-- packages for Solaris on the SPARC and x64 platforms, provided by Mithun -->
-<!-- Sridharan. -->
-<p>No other binary distributions are currently publically available via
+   <p>No other binary distributions are currently publically available via
 <acronym>CRAN</acronym>.
 
-<!-- A `‘live’' Linux distribution with a particular focus on R is -->
-<!-- @dfn{Quantian}, which provides a directly bootable and self-configuring -->
-<!-- `‘Live DVD’' containing numerous applications of interests to scientists -->
-<!-- and researchers, including several hundred @CRAN{} and Bioconductor -->
-<!-- packages, the `‘ESS’' extensions for Emacs, the `‘JGR’' Java -->
-<!-- @acronym{GUI} for R, the Ggobi visualization tool as well as several -->
-<!-- other R interfaces. The @dfn{Quantian} website at -->
-<!-- @url{http://dirk.eddelbuettel.com/quantian/} contains more details as -->
-<!-- well download information. -->
 <div class="node">
 <p><hr>
 <a name="What-documentation-exists-for-R%3f"></a>
@@ -1067,7 +1041,7 @@ load.
 snapshots of R (copies of the current source trees), as gzipped and
 bzipped tar files, a wealth of additional contributed code, as well as
 prebuilt binaries for various operating systems (Linux, Mac OS Classic,
-Mac OS X, and MS Windows).  <acronym>CRAN</acronym> also provides access to
+OS X, and MS Windows).  <acronym>CRAN</acronym> also provides access to
 documentation on R, existing mailing lists and the R Bug Tracking
 system.
 
@@ -3208,7 +3182,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#R-Miscellanea">R Miscellanea</a>
 problems, and the default settings should just work.  This option is not
 available for versions of R prior to 2.7.0, or without support for
 cairo.  From R 2.7.0 <code>png()</code> by default uses the Quartz device
-on Mac OS X, and that too works in batch mode.
+on OS X, and that too works in batch mode.
 
    <p>Earlier versions of the <code>png()</code> device used the X11 driver, which
 is a problem in batch mode or for remote operation.  If you have
@@ -3670,7 +3644,7 @@ For some common viewers, consider the following:
 <dt>Acrobat Reader (cross platform)<a name="index-Acrobat-Reader-_0028cross-platform_0029-1"></a><dd>There are options in Preferences to enable/disable text smoothing, image
 smoothing and line art smoothing. 
 Disable line art smoothing. 
-<br><dt>Preview (Mac OS X)<a name="index-Preview-_0028Mac-OS-X_0029-2"></a><dd>There is an option in Preferences to enable/disable anti-aliasing of
+<br><dt>Preview (OS X)<a name="index-Preview-_0028OS-X_0029-2"></a><dd>There is an option in Preferences to enable/disable anti-aliasing of
 text and line art. 
 Disable this option. 
 <br><dt>GSview (cross platform)<a name="index-GSview-_0028cross-platform_0029-3"></a><dd>There are settings for Text Alpha and Graphics Alpha. 

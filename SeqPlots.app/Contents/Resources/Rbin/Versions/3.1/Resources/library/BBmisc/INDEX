@@ -81,6 +81,7 @@ makeProgressBar         Create a progress bar with estimated time.
 makeS3Obj               Simple constructor for S3 objects based on
                         lists.
 makeSimpleFileLogger    Simple logger which outputs to a file.
+mapValues               Replace values in atomic vectors
 messagef                Wrapper for message and sprintf.
 namedList               Create named list, possibly initialized with a
                         certain element.

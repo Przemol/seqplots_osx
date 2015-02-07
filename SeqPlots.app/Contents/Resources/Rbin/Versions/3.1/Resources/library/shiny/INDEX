@@ -43,9 +43,11 @@ navbarPage              Create a page with a top level navigation bar
 navlistPanel            Create a navigation list panel
 numericInput            Create a numeric input control
 observe                 Create a reactive observer
+observeEvent            Event handler
 outputOptions           Set options for an output object.
 pageWithSidebar         Create a page with a sidebar
 parseQueryString        Parse a GET query string from a URL
+passwordInput           Create a password input control
 plotOutput              Create an plot output element
 plotPNG                 Run a plotting function and save the output as
                         a PNG
@@ -79,9 +81,9 @@ selectInput             Create a select list input control
 serverInfo              Collect information about the Shiny Server
                         environment
 session                 Session object
+shiny-options           Global options for Shiny
 shiny-package           Web Application Framework for R
 shinyApp                Create a Shiny app object
-shinyDeprecated         Print message for deprecated functions in Shiny
 shinyServer             Define Server Functionality
 shinyUI                 Create a Shiny UI handler
 showReactLog            Reactive Log Visualizer

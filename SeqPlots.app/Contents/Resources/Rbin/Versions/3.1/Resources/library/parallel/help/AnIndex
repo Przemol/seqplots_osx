@@ -35,6 +35,7 @@ parSapplyLB	clusterApply
 pvec	pvec
 readChild	children
 readChildren	children
+R_PARALLEL_PORT	makeCluster
 selectChildren	children
 sendChildStdin	children
 sendMaster	children
