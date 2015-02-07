@@ -2,19 +2,53 @@
 message('Starting...')
 
 final <- try({
-	root <- file.path(path.expand("~"), "SeqPlots_data")
-	suppressPackageStartupMessages(require(BSgenome))
+    CONF <- read.dcf('seqplots.dcf', all = TRUE)
+    if(is.null(CONF$root)) {
+        root <- file.path(path.expand("~"), "SeqPlots_data")
+    } else {
+        root <- CONF$root
+    }
+    
+    try({    	
+		txt <- httr::content(httr::GET('https://raw.githubusercontent.com/Przemol/seqplots/master/DESCRIPTION'))		
+		new <- gsub('.+Version: ([0-9\\.]+).+', '\\1', txt)		
+		if( as.package_version(new) > packageVersion('seqplots') ) {		
+			if( system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --title "SeqPlots update" --text "New version available!"', 		
+				' --informative-text "Current version ',  packageVersion('seqplots') , 		
+				' can be updated to ', new ,'. Do you want to update?" --button1 "NO" --button2 "YES" --float'), 		
+				intern=TRUE) == 2) {		
+			    browseURL('https://github.com/Przemol/seqplots_osx/releases/latest')		
+			}		
+		}		
+	})
+    
+	#set up rooth here
+    suppressPackageStartupMessages(require(BSgenome))
+    
+	if( !file.exists(file.path(root, 'genomes')) ) {
+        dir.create(file.path(root, 'genomes'))
+	}
+	.libPaths(c( .libPaths(), file.path(root, 'genomes') ))
 		
 	a=2
 	while (a!=1) {
-		a=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v', packageVersion('seqplots'), ' (Mac OS X bundle ref: $(./git rev-parse --short=4 @{0}))" --informative-text "', 
-		'Currently installed genomes:\n', paste0('-', BSgenome::installed.genomes(), collapse='\n'), '\n------------------------------------------------ \n Data location: ', root, 
-		'" --button1 "START" --button2 "Install new genomes/updates" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'), intern=TRUE)
+		a=system(paste0(
+            'CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "SeqPlots v',
+            packageVersion('seqplots'), 
+            ' (Mac OS X bundle ref: ',
+            CONF$version,
+            ')" --informative-text "', 
+		    'Currently installed genomes:\n', 
+            paste0('-', BSgenome::installed.genomes(), collapse='\n'), 
+            '\n------------------------------------------------ \n Data location: ', 
+            root, 
+		    '" --button1 "START" --button2 "Install new genomes/updates" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'
+        ), intern=TRUE)
 		if(a==2) {
 			a2=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog dropdown --title "Install new genomes or updates" --text "Choose reference genome package..." --items ', 
 				paste(suppressMessages(available.genomes()), collapse=' '), ' --button1 "Ok" --button2 "Cancel" --button3 "Install from local file" --string-output'), intern=TRUE)
 			if(a2[[1]] == 'Ok') {
-				biocLite(a2[[2]], suppressUpdates=TRUE, ask=FALSE)
+				biocLite(a2[[2]], suppressUpdates=TRUE, ask=FALSE, lib=file.path(root, 'genomes'))
 			} else if(a2[[1]] == 'Install from local file') {
 				a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --title "Select reference genome or update package.."', intern=TRUE)
 				if(length(a3) > 0) install.packages(a3)
@@ -22,7 +56,10 @@ final <- try({
 		}
 		if(a==3) {
 			a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --select-only-directories --title "Select data location..."', intern=TRUE)
-			if(length(a3) > 0) root <- a3
+			if(length(a3) > 0) {
+                root <- a3
+                CONF$root <- root
+                write.dcf(CONF, 'seqplots.dcf')
 		}
 	}
 	message('Data loaction: ', root)
