@@ -1,7 +1,7 @@
 Package: seqplots
 Maintainer: Przemyslaw Stempor <ps562@cam.ac.uk>
 Author: Przemyslaw Stempor
-Version: 1.1.14
+Version: 1.1.15
 License: GPL-3
 Title: An interactive tool for visualizing NGS signals and sequence
         motif densities along genomic features using average plots and
@@ -54,9 +54,9 @@ RemoteHost: api.github.com
 RemoteRepo: seqplots
 RemoteUsername: przemol
 RemoteRef: master
-RemoteSha: e6d5bf6bf8f5f90e212f0d40862690247716ad6c
+RemoteSha: 2b8f415a737a9c503538bd89f975ea0dbdc22f24
 GithubRepo: seqplots
 GithubUsername: przemol
 GithubRef: master
-GithubSHA1: e6d5bf6bf8f5f90e212f0d40862690247716ad6c
-Built: R 3.1.1; ; 2015-02-07 21:51:39 UTC; unix
+GithubSHA1: 2b8f415a737a9c503538bd89f975ea0dbdc22f24
+Built: R 3.1.1; ; 2015-02-09 22:49:19 UTC; unix
