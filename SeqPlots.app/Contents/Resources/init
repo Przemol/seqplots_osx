@@ -60,7 +60,7 @@ final <- try({
 				biocLite(a2[[2]], suppressUpdates=TRUE, ask=FALSE, lib=file.path(root, 'genomes'))
 			} else if(a2[[1]] == 'Install from local file') {
 				a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --title "Select reference genome or update package.."', intern=TRUE)
-				if(length(a3) > 0) install.packages(a3)
+				if(length(a3) > 0) install.packages(a3, repos = NULL, lib=file.path(root, 'genomes'), type='source')
 			}
 		}
 		if(a==3) {
