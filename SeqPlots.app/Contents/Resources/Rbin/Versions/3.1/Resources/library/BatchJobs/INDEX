@@ -88,6 +88,7 @@ makeRegistry            Construct a registry object.
 makeSSHWorker           Create SSH worker for SSH cluster functions.
 makeSubmitJobResult     Create a SubmitJobResult object.
 reduceResults           Reduce results from result directory.
+removeRegistry          Remove a registry object.
 removeRegistryPackages
                         Remove packages from registry.
 removeRegistrySourceDirs
@@ -103,7 +104,7 @@ setJobNames             Set job names.
 showClusterStatus       Show information about available computational
                         resources on cluster.
 showLog                 Display the contents of a log file.
-showStatus              Show status information about jobs.
+showStatus              Retrieve or show status information about jobs.
 sourceRegistryFiles     Source registry files
 submitJobs              Submit jobs or chunks of jobs to batch system
                         via cluster function.

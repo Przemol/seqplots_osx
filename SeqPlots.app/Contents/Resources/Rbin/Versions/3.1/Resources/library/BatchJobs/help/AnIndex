@@ -26,6 +26,7 @@ dbGetJobs	dbGetJobs
 debugMulticore	debugMulticore
 debugSSH	debugSSH
 filterResults	filterResults
+findDisappeared	findState
 findDone	findState
 findErrors	findState
 findExpired	findState
@@ -55,6 +56,7 @@ getJobs	getJobs
 getLogFiles	getLogFiles
 getResources	getResources
 getSSHWorkersInfo	getSSHWorkersInfo
+getStatus	showStatus
 grepLogs	grepLogs
 installPackagesOnSSHWorkers	installPackagesOnSSHWorkers
 Job	makeJob
@@ -83,6 +85,7 @@ reduceResultsList	reduceResults
 reduceResultsMatrix	reduceResults
 reduceResultsVector	reduceResults
 Registry	makeRegistry
+removeRegistry	removeRegistry
 removeRegistryPackages	removeRegistryPackages
 removeRegistrySourceDirs	removeRegistrySourceDirs
 removeRegistrySourceFiles	removeRegistrySourceFiles

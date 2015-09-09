@@ -1,7 +1,7 @@
 Package: BiocParallel
 Type: Package
 Title: Bioconductor facilities for parallel evaluation
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Bioconductor Package Maintainer",
         email="maintainer@bioconductor.org", role="cre"),
@@ -36,10 +36,10 @@ Collate.windows: AllGenerics.R BiocParallelParam-class.R
         register.R SerialParam-class.R SnowParam-class.R
         BatchJobsParam-class.R utilities.R windows/zzz.R
 VignetteBuilder: knitr
-Packaged: 2015-01-29 03:57:17 UTC; biocbuild
+Packaged: 2015-02-08 04:14:47 UTC; biocbuild
 Author: Bioconductor Package Maintainer [cre],
   Martin Morgan [aut],
   Michel Lang [aut],
   Ryan Thompson [aut]
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
-Built: R 3.1.2; ; 2015-01-29 15:21:04 UTC; unix
+Built: R 3.1.2; ; 2015-02-08 16:00:58 UTC; unix

@@ -1,0 +1,14 @@
+JS                      Objects imported from other packages
+copySWF                 Copy the Flash SWF file from the TableTools
+                        extension
+dataTableAjax           Register a data object in a shiny session for
+                        DataTables
+dataTableOutput         Helper functions for using DT in Shiny
+dataTableProxy          Manipulate an existing DataTables instance in a
+                        Shiny app
+datatable               Create an HTML table widget using the
+                        DataTables library
+formatCurrency          Format table columns
+styleInterval           Conditional CSS styles
+tableHeader             Generate a table header or footer from column
+                        names

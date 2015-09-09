@@ -7,16 +7,7 @@ identify.kohonen	plot.kohonen
 map	map.kohonen
 map.kohonen	map.kohonen
 nir	nir
-plot.heatkey	plot.kohonen
-plot.kohchanges	plot.kohonen
-plot.kohcodes	plot.kohonen
-plot.kohcounts	plot.kohonen
-plot.kohmapping	plot.kohonen
 plot.kohonen	plot.kohonen
-plot.kohprop	plot.kohonen
-plot.kohquality	plot.kohonen
-plot.kohUmatrix	plot.kohonen
-plot.somgrid	plot.kohonen
 predict.kohonen	predict.kohonen
 print.kohonen	summary
 som	som

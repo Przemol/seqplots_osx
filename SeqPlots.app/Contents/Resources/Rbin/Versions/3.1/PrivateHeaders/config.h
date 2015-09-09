@@ -30,9 +30,6 @@
 /* Define if F77 and FC dummy `main' functions are identical. */
 /* #undef FC_DUMMY_MAIN_EQ_F77 */
 
-/* Defined if framework Accelerate is present */
-#define HAVE_ACCELERATE_FW 1
-
 /* Define to 1 if you have the `access' function. */
 #define HAVE_ACCESS 1
 
@@ -955,22 +952,22 @@
 #define PACKAGE "R"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "http://bugs.r-project.org"
+#define PACKAGE_BUGREPORT "https://bugs.r-project.org"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "R"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "R 3.1.2"
+#define PACKAGE_STRING "R 3.1.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "R"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL "http://www.r-project.org"
+#define PACKAGE_URL "https://www.r-project.org"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.1.2"
+#define PACKAGE_VERSION "3.1.3"
 
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. (For intl)
    */
@@ -1120,11 +1117,11 @@
 /* Define according to your operating system type. */
 #define Unix 1
 
-/* Define as 1 or 2 to specify levels of Valgrind instrumentation */
+/* Define as 1, 2 or 3 to specify levels of Valgrind instrumentation */
 #define VALGRIND_LEVEL 0
 
 /* Version number of package */
-#define VERSION "3.1.2"
+#define VERSION "3.1.3"
 
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */

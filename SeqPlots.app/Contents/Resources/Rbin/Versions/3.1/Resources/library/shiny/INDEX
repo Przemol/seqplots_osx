@@ -4,14 +4,19 @@ absolutePanel           Panel with absolute positioning
 actionButton            Action button/link
 addResourcePath         Resource Publishing
 bootstrapPage           Create a Bootstrap page
+brushOpts               Create an object representing brushing options
+brushedPoints           Find rows of data that are selected by a brush
 builder                 HTML Builder Functions
 checkboxGroupInput      Checkbox Group Input Control
 checkboxInput           Checkbox Input Control
+clickOpts               Create an object representing click options
 column                  Create a column within a UI definition
 conditionalPanel        Conditional Panel
 createWebDependency     Create a web dependency
 dateInput               Create date input
 dateRangeInput          Create date range input
+dblclickOpts            Create an object representing double-click
+                        options
 domains                 Reactive domains
 downloadButton          Create a download button or link
 downloadHandler         File Downloads
@@ -22,9 +27,10 @@ flowLayout              Flow layout
 fluidPage               Create a page with fluid layout
 headerPanel             Create a header panel
 helpText                Create a help text element
+hoverOpts               Create an object representing hover options
 htmlOutput              Create an HTML output element
 icon                    Create an icon
-imageOutput             Create a image output element
+imageOutput             Create an plot or image output element
 include                 Include Content From a File
 inputPanel              Input panel
 installExprFunction     Install an expression as a function
@@ -41,6 +47,8 @@ maskReactiveContext     Evaluate an expression without a reactive
                         context
 navbarPage              Create a page with a top level navigation bar
 navlistPanel            Create a navigation list panel
+nearPoints              Find rows of data that are near a
+                        click/hover/double-click
 numericInput            Create a numeric input control
 observe                 Create a reactive observer
 observeEvent            Event handler
@@ -48,7 +56,6 @@ outputOptions           Set options for an output object.
 pageWithSidebar         Create a page with a sidebar
 parseQueryString        Parse a GET query string from a URL
 passwordInput           Create a password input control
-plotOutput              Create an plot output element
 plotPNG                 Run a plotting function and save the output as
                         a PNG
 radioButtons            Create radio buttons

@@ -1,7 +1,7 @@
 Package: seqplots
 Maintainer: Przemyslaw Stempor <ps562@cam.ac.uk>
 Author: Przemyslaw Stempor
-Version: 1.3.1
+Version: 1.7.0
 License: GPL-3
 Title: An interactive tool for visualizing NGS signals and sequence
         motif densities along genomic features using average plots and
@@ -35,8 +35,9 @@ biocViews: ChIPSeq, RNASeq, Sequencing, Software, Visualization
 Depends: R (>= 3.1.0)
 Imports: methods, IRanges, BSgenome, digest, rtracklayer,
         GenomicRanges, Biostrings, shiny (>= 0.11.0), DBI, RSQLite,
-        RJSONIO, plotrix, fields, grid, kohonen, Cairo, parallel,
-        GenomeInfoDb, class, S4Vectors, ggplot2, reshape2, gridExtra
+        plotrix, fields, grid, kohonen, Cairo, parallel, GenomeInfoDb,
+        class, S4Vectors, ggplot2, reshape2, gridExtra, jsonlite, DT,
+        RColorBrewer
 Type: Package
 Date: 2014-09-15
 LazyLoad: yes
@@ -54,9 +55,9 @@ RemoteHost: api.github.com
 RemoteRepo: seqplots
 RemoteUsername: przemol
 RemoteRef: master
-RemoteSha: 6d2d2f4e1ab668fd5d196eb7c2b7f61399168963
+RemoteSha: 70933d79e159b8b8fb48f322adc18d4209da0a05
 GithubRepo: seqplots
 GithubUsername: przemol
 GithubRef: master
-GithubSHA1: 6d2d2f4e1ab668fd5d196eb7c2b7f61399168963
-Built: R 3.1.1; ; 2015-02-24 17:12:27 UTC; unix
+GithubSHA1: 70933d79e159b8b8fb48f322adc18d4209da0a05
+Built: R 3.1.3; ; 2015-09-09 19:44:03 UTC; unix

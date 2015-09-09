@@ -13,9 +13,12 @@ as.tags.shiny.appobj	shinyApp
 basicPage	bootstrapPage
 bootstrapPage	bootstrapPage
 br	builder
+brushedPoints	brushedPoints
+brushOpts	brushOpts
 builder	builder
 checkboxGroupInput	checkboxGroupInput
 checkboxInput	checkboxInput
+clickOpts	clickOpts
 code	builder
 column	column
 conditionalPanel	conditionalPanel
@@ -23,6 +26,7 @@ createWebDependency	createWebDependency
 dataTableOutput	tableOutput
 dateInput	dateInput
 dateRangeInput	dateRangeInput
+dblclickOpts	dblclickOpts
 div	builder
 domains	domains
 downloadButton	downloadButton
@@ -47,6 +51,7 @@ h5	builder
 h6	builder
 headerPanel	headerPanel
 helpText	helpText
+hoverOpts	hoverOpts
 hr	builder
 HTML	HTML
 htmlOutput	htmlOutput
@@ -81,6 +86,7 @@ maskReactiveContext	maskReactiveContext
 navbarMenu	navbarPage
 navbarPage	navbarPage
 navlistPanel	navlistPanel
+nearPoints	nearPoints
 need	validate
 numericInput	numericInput
 observe	observe
@@ -91,7 +97,7 @@ p	builder
 pageWithSidebar	pageWithSidebar
 parseQueryString	parseQueryString
 passwordInput	passwordInput
-plotOutput	plotOutput
+plotOutput	imageOutput
 plotPNG	plotPNG
 pre	builder
 print.shiny.appobj	shinyApp

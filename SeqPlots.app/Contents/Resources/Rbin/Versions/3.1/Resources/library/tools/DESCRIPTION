@@ -1,9 +1,9 @@
 Package: tools
-Version: 3.1.2
+Version: 3.1.3
 Priority: base
 Title: Tools for Package Development
 Author: R Core Team
 Maintainer: R Core Team <R-core@r-project.org>
-Description: Tools for package development, administration and documentation
-License: Part of R 3.1.2
-Built: R 3.1.2; x86_64-apple-darwin10.8.0; 2014-10-31 20:13:16 UTC; unix
+Description: Tools for package development, administration and documentation.
+License: Part of R 3.1.3
+Built: R 3.1.3; x86_64-apple-darwin10.8.0; 2015-03-10 16:46:35 UTC; unix
