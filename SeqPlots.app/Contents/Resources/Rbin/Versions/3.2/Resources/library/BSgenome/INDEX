@@ -1,0 +1,19 @@
+BSParams-class          Class "BSParams"
+BSgenome-class          BSgenome objects
+BSgenome-utils          BSgenome utilities
+BSgenomeForge           The BSgenomeForge functions
+BSgenomeViews-class     BSgenomeViews objects
+GenomeData-class        Data on the genome
+GenomeDataList-class    List of GenomeData objects
+SNPlocs-class           SNPlocs objects
+XtraSNPlocs-class       XtraSNPlocs objects
+available.genomes       Find available/installed genomes
+bsapply                 bsapply
+export-methods          Export a BSgenome object as a FASTA or twoBit
+                        file
+gdReduce                Reduces arguments to a single GenomeData
+                        instance
+gdapply                 Applies a function to elements of a GenomeData
+getSeq,BSgenome-method
+                        getSeq method for BSgenome objects
+injectSNPs              SNP injection
