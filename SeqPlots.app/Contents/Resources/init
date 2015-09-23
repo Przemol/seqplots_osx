@@ -1,5 +1,5 @@
 #!/usr/bin/Rscript
-message('Starting...')
+message('Loading application...')
 
 final <- try({
     CONF <- read.dcf('seqplots.dcf', all = TRUE)
@@ -72,9 +72,10 @@ final <- try({
 			}
 		}
 	}
-	message('Data loaction: ', root)
-	message('Loading packages...')
+	#message('Data loaction: ', root)
+	#message('Loading packages...')
 	suppressPackageStartupMessages( library(seqplots) )
+	suppressPackageStartupMessages( library(shiny) )
 	
 	seqplots::run( root = root, launch.browser = TRUE )
 })
