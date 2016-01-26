@@ -1,5 +1,6 @@
 #!/usr/bin/Rscript
 message('Loading application...')
+message('PROGRESS:10')
 
 final <- try({
     CONF <- read.dcf('seqplots.dcf', all = TRUE)
@@ -32,12 +33,7 @@ final <- try({
 	})}
     
 	#set up rooth here
-    suppressPackageStartupMessages(require(BSgenome))
     
-	if( !file.exists(file.path(root, 'genomes')) ) {
-        dir.create(file.path(root, 'genomes'))
-	}
-	.libPaths(c( .libPaths(), file.path(root, 'genomes') ))
 		
 	a=2
 	while (a!=1) {
@@ -47,21 +43,12 @@ final <- try({
             ' (Mac OS X bundle version: ',
             CONF$version,
             ')" --informative-text "', 
-		    'Currently installed genomes:\n', 
-            paste0('-', BSgenome::installed.genomes(), collapse='\n'), 
-            '\n------------------------------------------------ \n Data location: ', 
+            'Data location: ', 
             root, 
-		    '" --button1 "START" --button2 "Install new genomes/updates" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'
+		    '" --button1 "START" --button2 "Quit" --button3 "Change data location" --title "SeqPlots Setup" --icon info --float'
         ), intern=TRUE)
 		if(a==2) {
-			a2=system(paste0('CocoaDialog.app/Contents/MacOS/CocoaDialog dropdown --title "Install new genomes or updates" --text "Choose reference genome package..." --items ', 
-				paste(suppressMessages(available.genomes()), collapse=' '), ' --button1 "Ok" --button2 "Cancel" --button3 "Install from local file" --string-output'), intern=TRUE)
-			if(a2[[1]] == 'Ok') {
-				biocLite(a2[[2]], suppressUpdates=TRUE, ask=FALSE, lib=file.path(root, 'genomes'))
-			} else if(a2[[1]] == 'Install from local file') {
-				a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --title "Select reference genome or update package.."', intern=TRUE)
-				if(length(a3) > 0) install.packages(a3, repos = NULL, lib=file.path(root, 'genomes'), type='source')
-			}
+		    quit(save = "no")
 		}
 		if(a==3) {
 			a3=system('CocoaDialog.app/Contents/MacOS/CocoaDialog fileselect --select-only-directories --title "Select data location..."', intern=TRUE)
@@ -74,8 +61,21 @@ final <- try({
 	}
 	#message('Data loaction: ', root)
 	#message('Loading packages...')
-	suppressPackageStartupMessages( library(seqplots) )
+	message('Loading packages...')
+	message('PROGRESS:25')
+	suppressPackageStartupMessages( library(GenomicRanges) )
+	message('PROGRESS:50')
+	suppressPackageStartupMessages( library(rtracklayer) )
+	message('PROGRESS:70')
+	message('Loading web interface...')
 	suppressPackageStartupMessages( library(shiny) )
+	message('PROGRESS:75')
+	message('Loading SeqPlots...')
+	suppressPackageStartupMessages( library(seqplots) )
+	
+	message('DETAILS:SHOW\n')
+	message('PROGRESS:100\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+	
 	
 	seqplots::run( root = root, launch.browser = TRUE )
 })
