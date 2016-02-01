@@ -37,14 +37,16 @@ shinyServer(function(input, output, clientData, session) {
   #Reactive values definition
   subplotSetup <- reactiveValues( )
   urlSetup <- reactiveValues( )
-  GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-  if( length(GENOMES) ) 
-      names(GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
   values <- reactiveValues( 
       grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, 
-      im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(), genomes=GENOMES,
-      sessionID=gsub('[^A-Za-z0-9]', '_', session$request$HTTP_SEC_WEBSOCKET_KEY) 
+      im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(),
+      sessionID=gsub('[^A-Za-z0-9]', '_', session$request$HTTP_SEC_WEBSOCKET_KEY),
+      GENOMES=BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
   )
+  observe({
+    if( length(values$GENOMES) ) 
+      names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+  })
   
   #Source functions
   if( Sys.getenv('web') != '' ) setwd(Sys.getenv('web'))
@@ -64,9 +66,9 @@ shinyServer(function(input, output, clientData, session) {
 	    isolate( eval(parse(text=input$debug_cmd)) )
 	  })
   }
-    observe({
-        updateSelectInput(session, "file_genome", choices = values$genomes)
-    })
+  observe({
+    updateSelectInput(session, "file_genome", choices = values$GENOMES)
+  })
   
 	
   #Add [S]equence [F]eature setup and reset observers
@@ -580,13 +582,13 @@ shinyServer(function(input, output, clientData, session) {
   
   output$trackDT <- fileSelectionDataTable('track')
   output$featureDT <- fileSelectionDataTable('feature')
-
   
-  #Server initiation actions
   observe({
   	session$sendCustomMessage("jsExec", "Shiny.shinyapp.$socket.onclose = function () { $(document.body).addClass('disconnected'); alert('Connection to server lost!'); }")
     session$sendCustomMessage("jsExec", "$('.load_div').fadeOut(1000);")
     session$sendCustomMessage("jsExec", "animateTitle();")
+    if(Sys.getenv('tutorial', TRUE)) session$sendCustomMessage("jsExec", "startTutorial();")
+    
     
     #Session elem:  "clientData","input","isClosed","onFlush","onFlushed","onSessionEnded","output","request","sendCustomMessage","sendInputMessage" 
     #sapply(ls(session$request), function(x) session$request[[x]])
@@ -623,10 +625,9 @@ shinyServer(function(input, output, clientData, session) {
               try(remove.packages(input$inst_genomes, lib = lib))
           )
           updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
+          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+          if( length(values$GENOMES) ) 
+              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
           #updateSelectInput(session, "file_genome", choices = GENOMES)
       })
   })
@@ -642,11 +643,9 @@ shinyServer(function(input, output, clientData, session) {
               lib=file.path(Sys.getenv('root'), 'genomes'), type='source'
           )
           updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
-          
+          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+          if( length(values$GENOMES) ) 
+              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
       })
   })
   
@@ -661,10 +660,9 @@ shinyServer(function(input, output, clientData, session) {
               lib=file.path(Sys.getenv('root'), 'genomes')
           )
           updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
+          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+          if( length(values$GENOMES) ) 
+              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
       })
   })
   
