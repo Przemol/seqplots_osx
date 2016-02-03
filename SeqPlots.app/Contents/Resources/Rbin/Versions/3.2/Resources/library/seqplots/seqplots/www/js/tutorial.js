@@ -177,7 +177,7 @@ hints = [{
     body: "In order to set up the plot press this button. It brings up the list of files available for plotting and various plotting options."
 },{
     p: 'bottom', 
-    el: '#trackDT tbody tr:nth-child(3)', 
+    el: 'tr:contains(H3K4me3_celegans_N2_L3_chrI.bw)', 
     head: 'Select track', 
     body: "Select H3K4me3 coverage track by clicking it"
 },{
@@ -365,6 +365,7 @@ hints = [{
   
     tutorial = {
         step: 0,
+        niter: 0,
         light: light = new SpotlightRect({x: 0, y: 0, w: window.innerWidth, h: window.innerHeight}, {opacity: 0}),
         hints: hints,
         next: function() {
@@ -376,8 +377,11 @@ hints = [{
                 $('#tutorial').load('outro.html');
                 return;
             }
+            tutorial.niter=0;
             var check = function(){
                 if($(hint.el).length){
+                    
+                    
                     $('.popover').popover("destroy");
                     var item = $(hint.el).first();
                     tutorial.light.animateTo(paddedRect(item[0], [5]), {opacity: .65});
@@ -388,6 +392,9 @@ hints = [{
                     
                     item.popover({title: hint.head, content: hint.body, animation: true, placement: hint.p, container: 'body'}).popover('show');
                     tutorial.step = tutorial.step + 1;
+                    
+                    
+                    
                     if(hint.wait) {
                         if(isFinite(hint.wait)) {
                             item.one('click', function() {
@@ -434,7 +441,16 @@ hints = [{
                     }, 1000)
                     
                 } else {
-                    setTimeout(check, 100); // check again in a second
+                    demo='demo';
+                    $('[placeholder="user"]').val('demo');
+                    var timer = setTimeout(check, 100); // check again in a second
+                    tutorial.niter=tutorial.niter+1;
+                    console.log(tutorial.niter);
+                    if(tutorial.niter > 20) {
+                        alert('Make sure you have tutorial data uploaded to SeqPlots!');
+                        tutorial.stop();
+                        clearTimeout(timer);
+                    }
                 }
             };
             setTimeout(function(){ check(); }, hint.delay | 0);
@@ -445,7 +461,8 @@ hints = [{
             var item = $(hint.el).first();
             $('.popover').popover("destroy");
             item.unbind('click');
-            
+            demo=null;
+            $('[placeholder="user"]').val('').keyup();
             var ms = tutorial.light.animateTo({x: 0, y: 0, w: window.innerWidth, h: window.innerHeight}, {opacity: 0});
             window.removeEventListener('wheel', preventDefault);
             window.removeEventListener('mousewheel', preventDefault);
