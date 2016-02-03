@@ -1,7 +1,7 @@
 Package: seqplots
 Maintainer: Przemyslaw Stempor <ps562@cam.ac.uk>
 Author: Przemyslaw Stempor
-Version: 1.7.9
+Version: 1.7.10
 License: GPL-3
 Title: An interactive tool for visualizing NGS signals and sequence
         motif densities along genomic features using average plots and
@@ -51,14 +51,14 @@ Collate: 'MotifSetup-class.R' 'PlotSetPair-class.R'
         'int_imPlot2.R' 'int_plotMext.R' 'plotAverage.R'
         'plotHeatmap.R' 'run.R' 'seqplots-package.R' 'zzz.R'
 RoxygenNote: 5.0.1
-Built: R 3.2.3; ; 2016-02-03 12:32:47 UTC; unix
+Built: R 3.2.3; ; 2016-02-03 22:31:03 UTC; unix
 RemoteType: github
 RemoteHost: api.github.com
 RemoteRepo: seqplots
 RemoteUsername: przemol
 RemoteRef: master
-RemoteSha: 4a85ca04e7750b8ea1a919a34074ce072c8a1e04
+RemoteSha: f1ceef2f8f4d9ae801e583644c4d2e96c373cd48
 GithubRepo: seqplots
 GithubUsername: przemol
 GithubRef: master
-GithubSHA1: 4a85ca04e7750b8ea1a919a34074ce072c8a1e04
+GithubSHA1: f1ceef2f8f4d9ae801e583644c4d2e96c373cd48
