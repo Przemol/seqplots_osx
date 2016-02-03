@@ -61,6 +61,29 @@ final <- try({
 	}
 	#message('Data loaction: ', root)
 	#message('Loading packages...')
+	
+	if( file.exists('demo_home') ) {
+	    message('Copying demo files and genomes...')
+	    message('PROGRESS:15')
+	    if(!file.exists(root)) dir.create(root)
+	    cp <- file.copy(dir('demo_home', full.names = TRUE), root, recursive = TRUE, overwrite = FALSE)
+	    if( file.exists(file.path(root, 'files.sqlite')) ) {
+	        library(RSQLite)
+	        sqlite    <- dbDriver("SQLite")
+	        olddb <- dbConnect(sqlite,"demo_home/files.sqlite")
+	        if (!any(grepl('demodemo', dbReadTable(olddb, 'files')$id))) {
+    	        db <- dbConnect(sqlite,"demo_home/files.sqlite")
+    	        demo <- dbReadTable(db, 'files')
+    	        dbDisconnect(db)
+    	        
+    	        file.copy(file.path(root, 'files.sqlite'), file.path(root, 'files_backup.sqlite'))
+    	        dbWriteTable(olddb, 'files', demo, overwrite = FALSE, append = TRUE)
+	        }
+	        dbDisconnect(olddb)
+	    }
+	        
+	}
+	
 	message('Loading packages...')
 	message('PROGRESS:25')
 	suppressPackageStartupMessages( library(GenomicRanges) )
@@ -75,7 +98,6 @@ final <- try({
 	
 	message('DETAILS:SHOW\n')
 	message('PROGRESS:100\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-	
 	
 	seqplots::run( root = root, launch.browser = TRUE )
 })
