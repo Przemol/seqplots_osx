@@ -1,0 +1,11 @@
+SeqPlots.app/Contents/Resources/demo_home/genomes/BSgenome.Hsapiens.UCSC.hg19/extdata/single_sequences.2bit filter=lfs diff=lfs merge=lfs -text
+*.2bit filter=lfs diff=lfs merge=lfs -text
+*.bw filter=lfs diff=lfs merge=lfs -text
+*.bed filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/ filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/files filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/files.sqlite filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/genomes filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/publicFiles filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/removedFiles filter=lfs diff=lfs merge=lfs -text
+SeqPlots.app/Contents/Resources/demo_home/tmp filter=lfs diff=lfs merge=lfs -text
