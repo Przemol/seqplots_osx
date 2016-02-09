@@ -224,7 +224,7 @@ hints = [{
     body: 'This panel allows to select plot type. "Point Features" anchor plots on the start of a genomic intervals. "Midpoint" and "Endpoint" features are similar to point features, but plots are centered on the midpoint and end of the feature respectively. Anchored plot allows to investigate signal along genomic intervals, e.g. TSS to TTS on genes. Intervals with different lengths are scaled to width selected in "Anchored distance" input. Click on "Point Features" to confirm selection.'
 },{
     p: 'top', 
-    el: '[onclick="sendToCalc()"]', 
+    el: '#runcalc', 
     head: 'Start calculation', 
     body: 'Confirm the settings and start a calculation by clicking "Run calculation" button'
 },{
@@ -232,6 +232,7 @@ hints = [{
     p: 'bottom',
     head: 'Wait for calculation to finish', 
     body: "This panel allows you to track the progress. The calculation might take a while, depending on settings selected and computer speed.",
+    delay: 500,
     wait: 'plot_this'
 },
 // /?load=tutorial_plots.Rdata#
@@ -468,7 +469,7 @@ hints = [{
             $('.popover').popover("destroy");
             item.unbind('click');
             demo=null;
-            $('[placeholder="user"]').val('').keyup();
+            $('input[type="search"]').filter(function(){return this.value=='demo'}).each(function(){$(this).addClass('demo').siblings().click();})
             var ms = tutorial.light.animateTo({x: 0, y: 0, w: window.innerWidth, h: window.innerHeight}, {opacity: 0});
             window.removeEventListener('wheel', preventDefault);
             window.removeEventListener('mousewheel', preventDefault);

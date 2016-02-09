@@ -9,6 +9,7 @@ hlp <- function(target, top=-10) {
   ))
 }
 
+
 # HEAD #########################################################################
 
 head <- tags$head(
@@ -36,7 +37,7 @@ head <- tags$head(
     ## DataTable libraries
     #singleton(tags$script(src = "js/DataTables/jquery.dataTables.js")),
     #singleton(tags$script(src = "js/DataTables/DT_bootstrap.js")),
-    singleton(tags$script(src = "js/DataTables/dataTables.tableTools.min.js")),
+    #singleton(tags$script(src = "js/DataTables/dataTables.tableTools.min.js")),
     #singleton(tags$script(src = "js/DataTables/DT_filter.js")),
     
     
@@ -182,7 +183,7 @@ heatmapPanel <- tabPanel(
     h5(tags$u('Heatmap setup'), hlp("heatmaps")),
     div( class='hidden', checkboxInput("img_heatmap", "Preview heatmap [Ctrl+H]") ), 
     #checkboxInput("img_sort", "Sort heatmap rows by mean signal"),
-    selectInput("img_sort", "Sort heatmap rows by mean signal", c('do not sort', "increasing", "decreasing"), 
+    selectInput("img_sort", "Sort heatmap rows by mean signal", c("decreasing", "increasing", 'do not sort'), 
                 selected = NULL, multiple = FALSE, selectize = TRUE, width = NULL),
     div(class='row',
         div(class='col-md-6', selectInput("img_clstmethod", 'Clustering algorithm', c('K-means'='kmeans', 'Hierarchical'='hclust', 'SuperSOM'='ssom', 'do not cluster'='none'))),
@@ -361,7 +362,7 @@ btnToolbar <- conditionalPanel(
     div(class="btn-toolbar", 
         div(
             class="btn-group",
-            downloadLink('downloadPlot',     tags$span(tags$i(class="icon-picture icon-large icon-white"), 'Line plot'),   class="btn btn-small btn-success"),
+            downloadLink('downloadPlot',   tags$span(icon("line-chart", "fa-lg"), 'Profile' ), class="btn btn-small btn-success"),
             downloadLink('downloadLegend', tags$span(tags$i(class="icon-info icon-large")), class="btn btn-small btn-success") #Legend
         ),
         div(
@@ -389,7 +390,12 @@ sidebar <- wellPanel(
     ),
     tags$hr(),
     btnToolbar,
-    div( class='hidden', textInput('clusters', 'Clusters'), textInput('sortingord', 'Sorting'), textInput('finalord', 'Sorting') )
+    div( class='hidden', 
+         textInput('clusters', 'Clusters'), 
+         textInput('sortingord', 'Sorting'), 
+         textInput('finalord', 'finalord'),
+         textInput('rowmeans', 'rowmenas')
+         )
 )
 
 # MAIN ##################################################
@@ -443,16 +449,17 @@ shinyUI(
         includeHTML( file.path(Sys.getenv("web", '.'), 'ui/loadModal.html') ), 
         
         #Calculation progress modal
-        div(id="progressModal", class="modal", 'data-backdrop'="false", 'data-keyboard'="false", tabindex=-1, div(class="modal-dialog", div(
-            class="modal-content",
-            div(class="modal-header", tags$h3(id="progressModalLabel", 'Calculating...')),
-            div(class="modal-body", verbatimTextOutput("summary2"), verbatimTextOutput("summary3"), actionButton('cancel', 'Cancel'))
-        ))),
+         div(id="progressModal", class="modal", 'data-backdrop'="false", 'data-keyboard'="false", tabindex=-1, div(class="modal-dialog", div(
+             class="modal-content",
+             div(class="modal-header", tags$h3(id="progressModalLabel", 'Calculating...')),
+             div(class="modal-body", verbatimTextOutput("summary2"), verbatimTextOutput("summary3"), actionButton('cancel', 'Cancel'))
+         ))),
         
         ##File management modal
         eval(parse( file.path(Sys.getenv("web", '.'), 'ui/FileManagementModal.R') )),
         
         #File upload modal
         includeHTML( file.path(Sys.getenv("web", '.'), 'www/upload/upload.html') )
+        
     )
 )

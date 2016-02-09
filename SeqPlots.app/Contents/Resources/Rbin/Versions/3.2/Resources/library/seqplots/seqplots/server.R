@@ -356,8 +356,11 @@ shinyServer(function(input, output, clientData, session) {
             gr$ClusterID <- fromJSON(input$clusters)
 	    if( nchar(input$sortingord) ) 
             gr$SortingOrder <- order(fromJSON(input$sortingord))
-      
+
         gr$FinalOrder <- order(fromJSON(input$finalord))
+        
+        if( nchar(input$rowmeans) ) 
+            gr$RowMeans <- fromJSON(input$rowmeans)
       
         out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
 	    out <- out[fromJSON(input$finalord),]
@@ -454,18 +457,27 @@ shinyServer(function(input, output, clientData, session) {
   #Feature and track tables - multiple file removal
   observe({
     if( is.null(input$TR_delate) ) return()
-    isolate({      
+    isolate({    
+        f_delate <- c(
+            values$track[input$trackDT_rows_selected,'name'],
+            values$feature[input$featureDT_rows_selected,'name']
+        )
+    
+        #actionButton('test', 'TEST', onClick="Shiny.onInputChange('confirm', confirm('Are you sure?'));")    
+        
       rmf <- function(x) {
         sql_string <- paste0("DELETE FROM files WHERE name = '", x , "'")
         row_aff <- dbGetRowsAffected(dbSendQuery(con, sql_string))
         moved <- file.rename(file.path('files',  x), file.path('removedFiles', x))
         if(row_aff & moved) return(TRUE) else return(FALSE)
       }
-      res <- sapply( input$f_delate, rmf)
+      res <- sapply( f_delate, rmf)
       session$sendCustomMessage("jsAlert", sprintf("Db=%i; Mv=%i; OK", sum(res), sum(res)) )
       values$refFileGrids <- runif(1)	
     })
   })
+  
+
 
   #Subplot setup logic
   observe({ 
@@ -522,67 +534,75 @@ shinyServer(function(input, output, clientData, session) {
   #Generate file table for tracks and features with function
   fileSelectionDataTable <- function(type) {
 
-      
-    dt_opt <- reactive({
-        values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
-        #if( nrow(dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "'"))) == 0 ) {
-        #    stop('Upload files first.')
-        #}
-        #    dat <- I(jsonlite::toJSON(as.matrix(cbind(
-        #        dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "'"))[,c(-1,-4)],
-        #    se='',  dl='',  rm=''))))
-            list(
-              ##Force client side processing, should be avoided for very long tables
-              #data=dat,
-              #ajax='',
-              #processing=FALSE,
-              #serverSide=FALSE,
-              
-              ##Other options
-              lengthMenu=I('[[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]'),
-              # "<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>"
-              dom="<'row'<'col-md-4'i><'.selectionsInfo col-md-1'><'col-md-6 pull-right'Tf>><'row'<'col-md-12'tr>><'row'<'col-md-6'l><'col-md-6'p>>",
-              order=I('[[ 1, "desc" ]]'),
-              language=I('{"sLengthMenu": "_MENU_ records per page"}'),
-              columns=I( readLines(file.path(Sys.getenv("web", '.'), 'ui/FataTablesColumnSetup.js')) ),
-              oTableTools=I( readLines(file.path(Sys.getenv("web", '.'), 'ui/DataTablesToolsSetup.js')) ),
-              scrollY=paste0(input$tabtest, "px"),
-              scrollX="true",
-              deferRender=I("false"),
-              searchCols=I('[null,null,null,null,{"search": typeof demo == "undefined" ? null : demo}]'),
-              pageLength=10,
-              #       rowCallback=I('function( row, data ) {
-              #         console.log(data[0])
-              #         if ( $.inArray(data[0], selected) !== -1 ) {
-              #           $(row).addClass("selected");
-              #           $(row).find(".select_indicator").removeClass( "icon-check-empty" ).addClass( "icon-check" );
-              #         }
-              #       }'),
-              pagingType="full_numbers"
-           )
-      })
-      
-      out <- renderDataTable({
-        ##Client side processing, code irrelavent
-            tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
-            if( nrow(tab) < 1 ) {return(p('No files found!'))} 
-            return(cbind(tab, se='',  dl='',  rm=''))
+      out <- DT::renderDataTable({
         
-        }, 
-        options = dt_opt, 
-        callback = I("function(oTable) {
-          var table = $('#' + oTable.context[0].sTableId);
-          var tables = table.parents('.dataTables_wrapper').find('table')
-          tables.addClass('table-condensed table-bordered');
-          //zzz=oTable.context[0];
-          oTable.draw();
-          $(tables[2]).removeClass('table-bordered');
-        }")
-      )
-      return(out)
-    }
+        values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
+          
+        tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
+        if( nrow(tab) < 1 ) {return(p('No files found!'))} 
+        values[[type]] <- tab
+        
+        tab$ctime <- as.Date(tab$ctime)
+        tab <- cbind(tab, se='',  dl='',  rm='')
+        rownames(tab) <- NULL
+        
+        
+        
+        dt <- DT::datatable(
+            tab,
+            rownames = FALSE,
+            filter = 'bottom',
+            options = list(
+                lengthChange = TRUE,
+                order=DT::JS('[[ 1, "desc" ]]'),
+                lengthMenu=DT::JS('[[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]'),
+                language=DT::JS('{"sLengthMenu": "_MENU_ records per page"}'),
+                dom="<'row'<'col-md-3'i><'.selectionsInfo col-md-5'><'col-md-3 pull-right'CTf>><'row'<'col-md-12'tr>><'row'<'col-md-6'l><'col-md-6'p>>",
+                columns=DT::JS( readLines(file.path(Sys.getenv("web", '.'), 'ui/FataTablesColumnSetup.js')) ),
+                #oTableTools=DT::JS( readLines(file.path(Sys.getenv("web", '.'), 'ui/DataTablesToolsSetup.js')) ),
+                searchHighlight = TRUE,
+                searchCols=DT::JS('[null,null,null,null,{"search": typeof demo == "undefined" ? null : demo}]'),
+                pagingType="full_numbers",
+                searchDelay=10,
+                processing = TRUE
+            ),
+            #selection = 'none',
+            extensions = c('ColVis'),
+            callback = DT::JS(
+                '$("#TrackSelCtl").appendTo($("#trackDT").find(".selectionsInfo"));
+                $("#FeatureSelCtl").appendTo($("#featureDT").find(".selectionsInfo"));
+                 console.log($(table));
+                 table.on( "click", "tbody tr", function () {
+                  if($(this).hasClass("selected")) {
+                        jQuery(this).find(".select_indicator").removeClass( "icon-check" ).addClass( "icon-check-empty" );
+                      } else {
+                        jQuery(this).find(".select_indicator").removeClass( "icon-check-empty" ).addClass( "icon-check" );                   
+                      }
+                  } );'
+            ),
+        ) 
+        return(dt)
+      }, 
+      server = TRUE)
+  }
+      
+        #options = dt_opt
+#         callback = DT::JS("function(oTable) {
+#           var table = $('#' + oTable.context[0].sTableId);
+#           var tables = table.parents('.dataTables_wrapper').find('table')
+#           tables.addClass('table-condensed table-bordered');
+#           //zzz=oTable.context[0];
+#           oTable.draw();
+#           $(tables[2]).removeClass('table-bordered');
+#         }")
+#      )
+
   
-  output$trackDT <- fileSelectionDataTable('track')
+  output$trackDT <- fileSelectionDataTable('track')   
+                                        
+                                        
+      
+
   output$featureDT <- fileSelectionDataTable('feature')
   
   observe({
@@ -716,6 +736,68 @@ shinyServer(function(input, output, clientData, session) {
     }
     #strsplit(strsplit("1,1;3,2", ';')[[1]], ',')
     # paste(names(reactiveValuesToList(input)), reactiveValuesToList(input), sep = "=", collapse="&")
+  })
+  
+  output$nselected <- renderText({
+      paste(length(input$trackDT_rows_selected), 'experiemnts selected')
+  })
+  
+  observe({
+      if(input$selFilt==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$trackDT_rows_all)
+      })
+  })
+  
+  observe({
+      if(input$selPage==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$trackDT_rows_current)
+      })
+  })
+  
+  observe({
+      if(input$selNone==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, NULL)
+      })
+  })
+  
+  #######
+  
+  output$nselectedFT <- renderText({
+      paste(length(input$featureDT_rows_selected), 'experiemnts selected')
+  })
+  
+  observe({
+      if(input$selFiltFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$featureDT_rows_all)
+      })
+  })
+  
+  observe({
+      if(input$selPageFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$featureDT_rows_current)
+      })
+  })
+  
+  observe({
+      if(input$selNoneFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, NULL)
+      })
   })
 
 ##Turn off experimental

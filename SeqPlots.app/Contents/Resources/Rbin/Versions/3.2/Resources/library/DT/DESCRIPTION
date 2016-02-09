@@ -1,7 +1,7 @@
 Package: DT
 Type: Package
 Title: A Wrapper of the JavaScript Library 'DataTables'
-Version: 0.1
+Version: 0.1.45
 Date: 2015-06-08
 Authors@R: c(
     person("Yihui", "Xie", email = "xie@yihui.name", role = c("aut", "cre")),
@@ -22,10 +22,10 @@ URL: http://rstudio.github.io/DT
 BugReports: https://github.com/rstudio/DT/issues
 License: GPL-3 | file LICENSE
 Imports: htmltools, htmlwidgets (>= 0.4), magrittr
-Suggests: jsonlite (>= 0.9.16), knitr (>= 1.8), shiny (>= 0.12.0)
+Suggests: jsonlite (>= 0.9.16), knitr (>= 1.8), rmarkdown, shiny (>=
+        0.12.1)
 VignetteBuilder: knitr
-NeedsCompilation: no
-Packaged: 2015-06-08 22:37:56 UTC; yihui
+RoxygenNote: 5.0.1
 Author: Yihui Xie [aut, cre],
   Joe Cheng [ctb],
   jQuery contributors [ctb, cph] (jQuery in htmlwidgets/lib),
@@ -34,6 +34,14 @@ Author: Yihui Xie [aut, cre],
   Leon Gersen [ctb, cph] (noUiSlider in htmlwidgets/lib),
   Bartek Szopka [ctb, cph] (jquery.highlight.js in htmlwidgets/lib),
   RStudio Inc [cph]
-Repository: CRAN
-Date/Publication: 2015-06-09 07:47:04
-Built: R 3.2.0; ; 2015-06-10 08:01:38 UTC; unix
+Built: R 3.2.3; ; 2016-02-09 16:36:31 UTC; unix
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: DT
+RemoteUsername: rstudio
+RemoteRef: master
+RemoteSha: a63e9acd88baaa82b8829c2f3c75666a4785181b
+GithubRepo: DT
+GithubUsername: rstudio
+GithubRef: master
+GithubSHA1: a63e9acd88baaa82b8829c2f3c75666a4785181b
