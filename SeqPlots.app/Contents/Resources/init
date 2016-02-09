@@ -71,13 +71,17 @@ final <- try({
 	        library(RSQLite)
 	        sqlite    <- dbDriver("SQLite")
 	        olddb <- dbConnect(sqlite,"demo_home/files.sqlite")
-	        if (!any(grepl('demodemo', dbReadTable(olddb, 'files')$id))) {
+	        if (!any(grepl('demo', dbReadTable(olddb, 'files')$user))) {
     	        db <- dbConnect(sqlite,"demo_home/files.sqlite")
     	        demo <- dbReadTable(db, 'files')
     	        dbDisconnect(db)
     	        
     	        file.copy(file.path(root, 'files.sqlite'), file.path(root, 'files_backup.sqlite'))
-    	        dbWriteTable(olddb, 'files', demo, overwrite = FALSE, append = TRUE)
+    	        for(i in 1:nrow(demo)) {
+    	            sql_string <- paste0("INSERT INTO files (name, ctime, type, format, genome, user, comment) VALUES ('", paste0(demo[i,-1], collapse="','"), "');")
+        	        res <- try(dbGetQuery(olddb, sql_string ))
+        	        if(class(res)=="try-error") message(res)
+    	        }
 	        }
 	        dbDisconnect(olddb)
 	    }
