@@ -66,12 +66,16 @@ final <- try({
 	    message('Copying demo files and genomes...')
 	    message('PROGRESS:15')
 	    if(!file.exists(root)) dir.create(root)
-	    cp <- file.copy(dir('demo_home', full.names = TRUE), root, recursive = TRUE, overwrite = FALSE)
+	    
 	    if( file.exists(file.path(root, 'files.sqlite')) ) {
 	        library(RSQLite)
 	        sqlite    <- dbDriver("SQLite")
-	        olddb <- dbConnect(sqlite,"demo_home/files.sqlite")
+	        olddb <- dbConnect(sqlite,file.path(root, 'files.sqlite'))
+	        
+	        
 	        if (!any(grepl('demo', dbReadTable(olddb, 'files')$user))) {
+	            message('Adding demo entries to existing database')
+	            
     	        db <- dbConnect(sqlite,"demo_home/files.sqlite")
     	        demo <- dbReadTable(db, 'files')
     	        dbDisconnect(db)
@@ -84,6 +88,8 @@ final <- try({
     	        }
 	        }
 	        dbDisconnect(olddb)
+	        
+	        cp <- file.copy(dir('demo_home', full.names = TRUE), root, recursive = TRUE, overwrite = FALSE)
 	    }
 	        
 	}
