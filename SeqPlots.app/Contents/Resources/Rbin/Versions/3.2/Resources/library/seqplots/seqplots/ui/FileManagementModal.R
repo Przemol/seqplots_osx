@@ -11,7 +11,7 @@ tagList(
                     div(id='TrackSelCtl', 
                         ' | ', textOutput('nselected', inline = TRUE),  ' | ', 
                         actionButton('selFilt', 'Select filtered'),
-                        actionButton('selPage', 'Select visible on page'),
+                        actionButton('selPage', 'Add visible on page'),
                         actionButton('selNone', 'Select none')
                     ),
                     
@@ -22,15 +22,14 @@ tagList(
                     div(id='FeatureSelCtl', 
                         ' | ', textOutput('nselectedFT', inline = TRUE),  ' | ', 
                         actionButton('selFiltFT', 'Select filtered'),
-                        actionButton('selPageFT', 'Select visible on page'),
+                        actionButton('selPageFT', 'Add visible on page'),
                         actionButton('selNoneFT', 'Select none')
                     ),
                     
                     DT::dataTableOutput('featureDT')
                     ),
-                tabPanel("Sequence features",   div(class='row', div(class='col-md-4', wellPanel(
+                tabPanel("Sequence features", tags$br(), div(class='row', div(class='col-md-4', wellPanel(
                     class='SFform', 
-                    #selectInput("SFgenome", "Reference sequence (genmoe)", GENOMES),
                     textInput(inputId='SFpattern', label='DNA motif'),
                     numericInput(inputId='SFbin', label='Sliding window size in base pairs [bp]', value=200, min=10, step=10),
                     textInput(inputId='SFname', label='Display name'),

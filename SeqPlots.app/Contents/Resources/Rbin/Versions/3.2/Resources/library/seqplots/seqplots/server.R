@@ -41,11 +41,18 @@ shinyServer(function(input, output, clientData, session) {
       grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, 
       im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(),
       sessionID=gsub('[^A-Za-z0-9]', '_', session$request$HTTP_SEC_WEBSOCKET_KEY),
-      GENOMES=BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+      GENOMES=NULL
   )
+  
+  updateGenomes <- function() {
+      gen <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+      if( length(gen) ) 
+          names(gen) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+      return( gen[!duplicated(gen)] )
+  }    
+
   observe({
-    if( length(values$GENOMES) ) 
-      names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+      values$GENOMES <- updateGenomes()
   })
   
   #Source functions
@@ -68,6 +75,7 @@ shinyServer(function(input, output, clientData, session) {
   }
   observe({
     updateSelectInput(session, "file_genome", choices = values$GENOMES)
+    updateCheckboxGroupInput(session, 'inst_genomes', choices = unique(installed.genomes()))
   })
   
 	
@@ -98,13 +106,13 @@ shinyServer(function(input, output, clientData, session) {
   
   #Subclust logic
   observe({
-      input$clusters; input$replot
+      values$clusters; input$replot
       if( !isolate(input$heat_seed) ) {
           updateSelectInput(session, 'heat_subclust', choices='All clusters')
           return()
       }
       if( isolate(input$heat_subclust) != "All clusters") return()
-      clusters <- fromJSON(input$clusters)
+      clusters <- values$clusters
       updateSelectInput(session, 'heat_subclust', choices = c('All clusters', sort(unique(clusters))))
       
   })
@@ -335,38 +343,8 @@ shinyServer(function(input, output, clientData, session) {
 	    paste('Clusters_', gsub(' ', '_', Sys.time()), '.csv', sep='')
 	  },
 	  content = function( file ) {
-	    if(!nchar(input$clusters) & !nchar(input$sortingord)) stop('Plot heatmap with clusters or ordering first!')
-	      
-	    nam <- basename(names( values$grfile[fromJSON(input$plot_this[[1]])[2]] ))
-	    nam <- dbGetQuery(con, sprintf('SELECT name FROM files WHERE name LIKE "%s.%%"', nam))
-	    infile <- file.path('files', nam)
-        
-        if(file.exists(infile)) {
-            fcon <- file(infile); gr <- rtracklayer::import( fcon ); close(fcon);
-            elementMetadata(gr) <- elementMetadata(gr)[!sapply( elementMetadata(gr), function(x) all(is.na(x)))]
-	        if( length(colnames(elementMetadata(gr))) ) { colnames(elementMetadata(gr)) <- paste0('metadata_', colnames(elementMetadata(gr))) }
-            gr$OriginalOrder <- 1:length(gr); 
-        } else {
-            warning('The file "', infile, '" does not exist on local file system.')
-            gr <- data.frame( OriginalOrder=1:length(fromJSON(input$finalord)) ) 
-        }
-        
-        
-        if( nchar(input$clusters) ) 
-            gr$ClusterID <- fromJSON(input$clusters)
-	    if( nchar(input$sortingord) ) 
-            gr$SortingOrder <- order(fromJSON(input$sortingord))
-
-        gr$FinalOrder <- order(fromJSON(input$finalord))
-        
-        if( nchar(input$rowmeans) ) 
-            gr$RowMeans <- fromJSON(input$rowmeans)
-      
-        out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
-	    out <- out[fromJSON(input$finalord),]
-      
-	    write.csv(out, file=file, row.names = FALSE)
-	    #cat(fromJSON(input$clusters), sep='\n', file=file)
+	    if( is.null(values$clustrep) ) stop('Plot heatmap with clusters or ordering first!')
+	    write.csv(values$clustrep, file=file, row.names = FALSE)
 	  }
 	)
 
@@ -557,7 +535,8 @@ shinyServer(function(input, output, clientData, session) {
             searchCols=DT::JS('[null,null,null,null,{"search": typeof demo == "undefined" ? null : demo}]'),
             pagingType="full_numbers",
             searchDelay=10,
-            processing = TRUE
+            processing = TRUE,
+            search = list(regex = TRUE)
         )
         
         dt <- DT::datatable(
@@ -633,11 +612,7 @@ shinyServer(function(input, output, clientData, session) {
           sapply(.libPaths(), function(lib) 
               try(remove.packages(input$inst_genomes, lib = lib))
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(values$GENOMES) ) 
-              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          #updateSelectInput(session, "file_genome", choices = GENOMES)
+          values$GENOMES <- updateGenomes()
       })
   })
   
@@ -651,10 +626,7 @@ shinyServer(function(input, output, clientData, session) {
               input$genomes_file$datapath, repos = NULL, 
               lib=file.path(Sys.getenv('root'), 'genomes'), type='source'
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(values$GENOMES) ) 
-              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+          values$GENOMES <- updateGenomes()
       })
   })
   
@@ -668,10 +640,8 @@ shinyServer(function(input, output, clientData, session) {
               input$avil_geneomes, suppressUpdates=TRUE, ask=FALSE, 
               lib=file.path(Sys.getenv('root'), 'genomes')
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          values$GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(values$GENOMES) ) 
-              names(values$GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+          updateSelectInput(session, 'avil_geneomes', selected = '')
+          values$GENOMES <- updateGenomes()
       })
   })
   
@@ -742,8 +712,7 @@ shinyServer(function(input, output, clientData, session) {
       if(input$selPage==0) return()
       isolate({
           proxy <- DT::dataTableProxy('trackDT')
-          DT::selectRows(proxy, NULL)
-          DT::selectRows(proxy, input$trackDT_rows_current)
+          DT::selectRows(proxy, union(input$trackDT_rows_selected, input$trackDT_rows_current))
       })
   })
   
@@ -774,8 +743,7 @@ shinyServer(function(input, output, clientData, session) {
       if(input$selPageFT==0) return()
       isolate({
           proxy <- DT::dataTableProxy('featureDT')
-          DT::selectRows(proxy, NULL)
-          DT::selectRows(proxy, input$featureDT_rows_current)
+          DT::selectRows(proxy, union(input$featureDT_rows_selected, input$featureDT_rows_current))
       })
   })
   

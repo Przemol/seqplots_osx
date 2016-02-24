@@ -28,6 +28,8 @@ italyMapEnv	italy
 kernel.region.region	internal2
 kernel.region.x	internal2
 kernel.smooth	internal2
+lakes	lakes
+lakesMapEnv	lakes
 legacy_world	legacy_world
 legacy_world2	legacy_world
 legacy_world2MapEnv	legacy_world
@@ -55,6 +57,9 @@ nzMapEnv	nz
 ozone	ozone
 smooth.map	smooth.map
 sov.expand	iso.expand
+Spatial2map	Spatial2map
+SpatialLines2map	Spatial2map
+SpatialPolygons2map	Spatial2map
 state	state
 state.carto	state.carto
 state.carto.center	state.carto

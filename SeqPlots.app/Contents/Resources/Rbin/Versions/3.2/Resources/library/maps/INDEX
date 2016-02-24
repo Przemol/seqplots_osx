@@ -1,3 +1,4 @@
+Spatial2map             Read SpatialPolygons and SpatialLines objects
 area.map                Area of projected map regions
 canada.cities           Database of Canadian cities
 county                  United States County Map
@@ -9,6 +10,7 @@ iso.expand              Identify countries by ISO 3166 codes (2 or 3
 iso3166                 ISO 3166 country codes (2 or 3 letters) and
                         sovereignty.
 italy                   Italy Map
+lakes                   World lakes database
 legacy_world            Legacy low resolution World Map.
 map                     Draw Geographical Maps
 map.axes                Draw Axes on Geographical Maps
